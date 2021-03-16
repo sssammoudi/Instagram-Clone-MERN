@@ -3,14 +3,10 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {JWT_SECRET_KEY} = require('./keys')
+const {JWT_SECRET_KEY} = require('../keys')
+const requireLogin = require('../middleware/requireLogin')
 
 const User = mongoose.model('User');
-
-router.get('/', (req, res)=>{
-  res.send("Home")
-})
-
 
 router.post('/signup', (req, res)=>{
   const {name, email, password} = req.body
@@ -57,7 +53,9 @@ router.post('/login', (req, res)=>{
     bcrypt.compare(password, savedUser.password)
     .then(match=>{
       if(match){
-        return res.json({success: "Success login"})
+        // return res.json({success: "Success login"})
+        const token = jwt.sign({s_id: savedUser._id}, JWT_SECRET_KEY)
+        return res.json({token})
       }
       return res.status(422).json({error: "The Email or Password is incorrect "})
     })
