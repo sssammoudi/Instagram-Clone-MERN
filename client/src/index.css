@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #000000c9;
+    color: rgb(255, 254, 254) !important;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+.brand-logo,
+h2 {
+    font-family: 'Grand Hotel', cursive;
+}
+
+.mycard {
+    margin-top: 30px;
+}
+
+.auth-card,
+.CreatePost-Card {
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+input,
+select,
+textarea {
+    color: rgb(255, 255, 255);
+}
+
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid rgb(8, 93, 252) !important;
+    box-shadow: 0 1px 0 0 rgb(8, 93, 252) !important;
+}
+
+.input-field input[type=password]:focus {
+    border-bottom: 1px solid rgb(8, 93, 252) !important;
+    box-shadow: 0 1px 0 0 rgb(8, 93, 252) !important;
+}
+
+.profile {
+    max-width: 500px;
+    margin: 0px auto;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-around;
+    margin: 18px 0px;
+    border: 2px solid rgb(90, 90, 90)
+}
+
+.profile-data {
+    display: flex;
+    justify-content: space-between;
+    width: 112%;
+}
+
+.profile-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.gallery-item {
+    width: 30%;
+}
+
+.home-card,
+.CreatePost-Card {
+    max-width: 500px;
+    height: max-content;
+    margin: 26px auto;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.collection-item {
+    width: 100%;
+}
+
+#toast-container {
+    top: 30px !important;
+    right: 20px !important;
+    left: auto !important;
+}
+
+.material-icons:hover {
+    cursor: pointer;
+}
