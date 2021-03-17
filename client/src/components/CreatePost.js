@@ -12,13 +12,13 @@ const CreatePost = () => {
         type="text"
         placeholder="body"
       />
-      <div class="file-field input-field">
-        <div class="btn blue darken-1">
+      <div className="file-field input-field">
+        <div className="btn blue darken-1">
           <span>Upload Image</span>
           <input type="file" />
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text" />
+        <div className="file-path-wrapper">
+          <input className="file-path validate" type="text" />
         </div>
       </div>
       <button className="btn blue darken-1">Post</button>
