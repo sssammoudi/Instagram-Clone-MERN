@@ -28,7 +28,7 @@ router.get("/userPost", requireLogin, (req, res) => {
 })
 
 router.post('/createPost', requireLogin, (req, res)=>{
-  const {title, body} = req.body
+  const {title, body, picture} = req.body
   if (!title || !body){
     res.status(422).json({error: "fill all the fields please"})
   }
@@ -36,6 +36,7 @@ router.post('/createPost', requireLogin, (req, res)=>{
   const post = new Post({
     title,
     body,
+    picture,
     postedBy: req.user
   })
   post.save()

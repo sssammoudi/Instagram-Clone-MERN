@@ -53,9 +53,9 @@ router.post('/login', (req, res)=>{
     bcrypt.compare(password, savedUser.password)
     .then(match=>{
       if(match){
-        // return res.json({success: "Success login"})
         const token = jwt.sign({s_id: savedUser._id}, JWT_SECRET_KEY)
-        return res.json({token})
+        const {_id, name, email} = savedUser
+        return res.json({token, user: {_id, name, email}, success: "Succesfull login"})
       }
       return res.status(422).json({error: "The Email or Password is incorrect "})
     })

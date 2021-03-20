@@ -1,22 +1,28 @@
 import React, {useState} from 'react'
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 import M from "materialize-css"
 
 const SignUp = () => {
+  const history = useHistory()
   const [name, setName] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [password, setpassword] = useState("");
   const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
 
   function postSignUp(){
+    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+      M.toast({html: "invalid email",classes:"red darken-3"})
+      return
+    }
     fetch("/signup", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
       },
       body: JSON.stringify({
-        "name": name,
-        "password": pwd,
-        "email": email
+        name,
+        password,
+        email
       })
     })
     .then(res => res.json())
@@ -25,6 +31,7 @@ const SignUp = () => {
         M.toast({html: data.error, classes: "red darken-1"})
       } else {
         M.toast({html: data.success, classes: "green accent-3"})
+        history.push("/login")
       }
     })
   }
@@ -48,15 +55,15 @@ const SignUp = () => {
         <input
           type="password"
           placeholder="password"
-          value={pwd}
-          onChange={(e)=>setPwd(e.target.value)}
+          value={password}
+          onChange={(e)=>setpassword(e.target.value)}
         />
         <div className="file-field input-field">
           <div className="btn #64b5f6 blue darken-1">
             <span>Upload pic</span>
             <input 
               type="file"
-              // onChange={(e)=>setImage(e.target.files[0])} 
+              onChange={(e)=>setImage(e.target.files[0])} 
             />
           </div>
           <div className="file-path-wrapper">

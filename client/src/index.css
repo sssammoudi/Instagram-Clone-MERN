@@ -97,3 +97,11 @@ textarea {
 .material-icons:hover {
     cursor: pointer;
 }
+
+.liked {
+    color: red
+}
+
+.disliked {
+    color: black
+}

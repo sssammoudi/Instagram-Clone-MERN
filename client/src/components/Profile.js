@@ -7,7 +7,7 @@ const Profile = () => {
     <div className="profile">
       <div className="profile-header">
         <div>
-          <img style={{width: "160px", height: "160px", borderRadius: "100px"}} src={imgUrl} />
+          <img style={{width: "160px", height: "160px", borderRadius: "100px"}} src={imgUrl} alt="title" />
         </div>
         <div>
           <h4>Username</h4>
