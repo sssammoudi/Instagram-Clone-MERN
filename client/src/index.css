@@ -84,6 +84,38 @@ textarea {
     border-radius: 20px;
 }
 
+.home-card {
+    background: transparent;
+    box-shadow: none;
+}
+
+.header-Post {
+    background-color: rgb(121, 121, 121);
+    border-radius: 20px 20px 0 0;
+}
+
+.headerPost {
+    display: flex;
+    justify-content: space-around;
+    max-width: 200px;
+    max-height: 100px;
+}
+
+.headerPost-Picture {
+    margin: 15px;
+    border-radius: 50px;
+    width: 70px;
+    height: 70px;
+}
+
+.card-content {
+    border-radius: 0 0 20px 20px !important;
+}
+
+h3 {
+    margin: 0 !important;
+}
+
 .collection-item {
     width: 100%;
 }

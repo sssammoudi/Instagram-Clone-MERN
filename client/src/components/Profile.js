@@ -1,8 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import icon from "./images/profile-pic.png"
 
 const Profile = () => {
   const [imgUrl, setImgUrl] = useState(icon);
+  const [myPosts, setMyPosts] = useState([])
+  useEffect(() => {
+    fetch("/userPost", {
+      method: "GET",
+      headers:{
+        "Authorization":"Bearer " + localStorage.getItem("jwt")
+      },
+    })
+    .then(res => res.json())
+    .then(result=>{
+      setMyPosts(result.myPost)
+    })
+  }, [])
   return (
     <div className="profile">
       <div className="profile-header">
@@ -19,7 +32,9 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile-gallery">
-
+        {myPosts.map(post => {
+          <img key={post._id} className="post" src={myPosts.picture} alt={post.title}/>  
+        })}
       </div>
     </div>
   )

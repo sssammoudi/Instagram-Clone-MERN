@@ -9,7 +9,8 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const [email, setEmail] = useState("");
 
-  function postLogin(){
+  function postLogin(e){
+    e.preventDefault()
     if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
       M.toast({html: "invalid email",classes:"red darken-3"})
       return
@@ -55,8 +56,7 @@ const Login = () => {
           value={password}
           onChange={(e)=>setpassword(e.target.value)}
         />
-        <button 
-          className="btn blue darken-1" onClick={(e) => (postLogin())}>Login</button>
+        <button className="btn blue darken-1" onClick={(e) => (postLogin(e))}>Login</button>
         <h5><Link to="/signup">You don't have an account?</Link></h5>
       </div>
     </div>

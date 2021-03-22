@@ -9,7 +9,7 @@ const requireLogin = require('../middleware/requireLogin')
 const User = mongoose.model('User');
 
 router.post('/signup', (req, res)=>{
-  const {name, email, password} = req.body
+  const {name, email, password, picture} = req.body
   if (!email || !password || !name){
     return res.status(422).json({error: "fill all the fields please"})
   }
@@ -23,7 +23,8 @@ router.post('/signup', (req, res)=>{
       const user = new User({
         email,
         name,
-        password: hashedPassword
+        password: hashedPassword,
+        picture: picture
       })
       user.save()
       .then((user)=>{

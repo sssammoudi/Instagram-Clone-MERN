@@ -32,7 +32,7 @@ function Nav() {
   return (
     <nav>
       <div className="nav-wrapper grey darken-1">
-        <Link to={state ? "/" : "/signin"} className="brand-logo left">IG-Clone</Link>
+        <Link to={state ? "/" : "/login"} className="brand-logo left">IG-Clone</Link>
         <ul id="nav-mobile" className="right">
           {renderList()}
         </ul>

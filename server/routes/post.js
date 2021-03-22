@@ -7,7 +7,8 @@ const Post = mongoose.model('Post');
 
 router.get("/allPosts", (req, res) => {
   Post.find()
-  .populate('postedBy', '_id name')
+  .populate('postedBy', '_id name picture')
+  .sort({createdAt: 'desc'})
   .then(posts => {
     res.json({posts})
   })

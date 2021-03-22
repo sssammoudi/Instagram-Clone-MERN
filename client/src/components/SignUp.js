@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link, useHistory} from "react-router-dom"
 import M from "materialize-css"
 
@@ -7,7 +7,30 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [password, setpassword] = useState("");
   const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
+  const [picture, setpicture] = useState("");
+  const [url, setUrl] = useState(null);
+
+  useEffect(() => {
+    postSignUp()
+  }, [url]);
+
+  function uploadPic() {
+    const data = new FormData();
+    data.append("file", picture)
+    data.append("upload_preset", "instaClone")
+    data.append("cloud_name", "dcyfsjd")
+    fetch("https://api.cloudinary.com/v1_1/dcyfsjd/image/upload", {
+      method: "POST",
+      body: data
+    })
+    .then(res=>res.json())
+    .then((data)=>{
+      setUrl(data.url)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 
   function postSignUp(){
     if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
@@ -22,7 +45,8 @@ const SignUp = () => {
       body: JSON.stringify({
         name,
         password,
-        email
+        email,
+        picture: url
       })
     })
     .then(res => res.json())
@@ -34,6 +58,14 @@ const SignUp = () => {
         history.push("/login")
       }
     })
+  }
+
+  function PostData() {
+    if(picture) {
+      uploadPic()
+    } else {
+      postSignUp()
+    } 
   }
 
   return (
@@ -63,14 +95,14 @@ const SignUp = () => {
             <span>Upload pic</span>
             <input 
               type="file"
-              onChange={(e)=>setImage(e.target.files[0])} 
+              onChange={(e)=>setpicture(e.target.files[0])} 
             />
           </div>
           <div className="file-path-wrapper">
             <input className="file-path validate" type="text" />
           </div>
         </div>
-        <button className="btn blue darken-1 waves-light waves-effect" onClick={(e) => (postSignUp())}>
+        <button className="btn blue darken-1 waves-light waves-effect" onClick={(e) => (PostData())}>
           Sign Up
         </button>
         <h5><Link to="/login">Already have an account?</Link></h5>
