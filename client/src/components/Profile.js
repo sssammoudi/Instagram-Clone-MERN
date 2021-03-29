@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import icon from "./images/profile-pic.png"
+import {UserContext} from "../App"
 
 const Profile = () => {
-  const [imgUrl, setImgUrl] = useState(icon);
+  const {state,dispatch} = useContext(UserContext)
   const [myPosts, setMyPosts] = useState([])
   useEffect(() => {
     fetch("/userPost", {
@@ -20,21 +21,24 @@ const Profile = () => {
     <div className="profile">
       <div className="profile-header">
         <div>
-          <img style={{width: "160px", height: "160px", borderRadius: "100px"}} src={imgUrl} alt="title" />
+          <img style={{width: "160px", height: "160px", borderRadius: "100px"}} src={state && state.picture ? state.picture : icon} alt="title" />
         </div>
         <div>
-          <h4>Username</h4>
+          <h4>{state ? state.name : "loading..."}</h4>
+          <h5>{state ? state.email : "loading..."}</h5>
           <div className="profile-data">
             <h6>Followers</h6>
             <h6>Folowing</h6>
-            <h6>Posts</h6>
+            <h6>{myPosts ? myPosts.length : 0} Posts</h6>
           </div>
         </div>
+        <br />
       </div>
       <div className="profile-gallery">
-        {myPosts.map(post => {
-          <img key={post._id} className="post" src={myPosts.picture} alt={post.title}/>  
+        {myPosts.map(post=>{
+          return post.picture ? (<img className="gallery-item" key={post._id} src={post.picture} alt={post.title}/>) : (<h3 className="gallery-item" key={post._id}>{post.title}</h3>)
         })}
+        
       </div>
     </div>
   )

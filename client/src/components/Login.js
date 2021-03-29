@@ -22,12 +22,11 @@ const Login = () => {
       },
       body: JSON.stringify({
         password,
-        email
+        email,
       })
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data)
       if(data.error) {
         M.toast({html: data.error, classes: "red darken-1"})
       } else {

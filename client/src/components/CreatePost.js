@@ -77,17 +77,19 @@ const CreatePost = () => {
         placeholder="Title"
         value={title}
         onChange={(e)=>setTitle(e.target.value)}
+        maxLength="12"
       />
       <input
         type="text"
         placeholder="body"
         value={body}
         onChange={(e)=>setBody(e.target.value)}
+        maxlength="100"
       />
       <div className="file-field input-field">
         <div className="btn blue darken-1">
           <span>Upload Image</span>
-          <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} />
+          <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} accept=".jpg, .jpeg, .png"/>
         </div>
         <div className="file-path-wrapper">
           <input className="file-path validate" type="text" />

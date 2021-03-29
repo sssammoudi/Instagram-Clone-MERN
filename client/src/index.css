@@ -54,32 +54,38 @@ textarea {
 .profile-header {
     display: flex;
     justify-content: space-around;
-    margin: 18px 0px;
-    border-radius: 20px;
-    border: 2px solid rgb(90, 90, 90) !important;
+    margin: 18px 18px 18px 18px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgb(90, 90, 90) !important;
 }
 
 .profile-data {
     display: flex;
     justify-content: space-between;
-    width: 108%;
+    width: 80%;
 }
 
 .profile-gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    position: relative;
 }
 
 .gallery-item {
-    width: 30%;
+    width: 40%;
+    max-height: 250px;
+    min-height: 250px;
 }
 
 .home-card,
 .CreatePost-Card {
-    max-width: 500px;
+    max-width: 400px;
     height: max-content;
-    margin: 26px auto;
+    margin: 5px auto;
     padding: 10px;
     border-radius: 20px;
 }
@@ -87,6 +93,11 @@ textarea {
 .home-card {
     background: transparent;
     box-shadow: none;
+}
+
+.card-image>img {
+    min-height: 400px;
+    max-height: 400px;
 }
 
 .header-Post {
@@ -97,27 +108,47 @@ textarea {
 .headerPost {
     display: flex;
     justify-content: space-around;
-    max-width: 200px;
+    width: 350px;
     max-height: 100px;
 }
 
-.headerPost-Picture {
+.headerImage {
+    margin: 0;
+    left: 0;
+}
+
+.headerImage>img {
     margin: 15px;
     border-radius: 50px;
-    width: 70px;
     height: 70px;
+}
+
+.header-content {
+    max-width: max-content;
 }
 
 .card-content {
     border-radius: 0 0 20px 20px !important;
 }
 
+.info {
+    display: flex;
+}
+
 h3 {
     margin: 0 !important;
+    padding: 0 !important;
 }
 
 .collection-item {
     width: 100%;
+}
+
+.heart-icon {
+    position: absolute;
+    left: 34%;
+    top: 35%;
+    filter: alpha(opacity=50);
 }
 
 #toast-container {
@@ -136,4 +167,9 @@ h3 {
 
 .disliked {
     color: black
+}
+
+.comments {
+    max-height: 50px;
+    overflow-y: auto;
 }

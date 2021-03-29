@@ -49,4 +49,88 @@ router.post('/createPost', requireLogin, (req, res)=>{
   ))
 })
 
+router.put("/liked", (req, res)=>{
+  Post.find({_id: req.body.postId, likes: req.body._id})
+  .then(result=>{
+    if(result[0]){
+      return res.json(true)
+    } else {
+      return
+    }
+  })
+})
+
+router.put("/like", requireLogin, (req, res)=>{
+  Post.find({_id: req.body.postId, likes: req.body._id})
+  .then(result=>{
+    if(result[0]){
+      return null
+    } else {
+      Post.findByIdAndUpdate(req.body.postId, {
+        $push: {likes: req.body._id}
+      }, {
+        new: true
+      }).exec((err, result)=> {
+        if(err) {
+          return res.status(422).json({error:err})
+        } else {
+          res.json(result)
+        }
+      })
+    }
+  })
+})
+
+router.put("/unlike", requireLogin, (req, res)=>{
+  Post.findByIdAndUpdate(req.body.postId, {
+    $pull: {likes: req.body._id}
+  }, {
+    new: true
+  }).exec((err, result)=> {
+    if(err) {
+      return res.status(422).json({error:err})
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+router.put('/comment',requireLogin,(req,res)=>{
+  const comment = {
+      text: req.body.commentText,
+      postedBy: req.user._id
+  }
+  Post.findByIdAndUpdate(req.body.postId, {
+    $push: {comments: comment}
+  }, {
+    new: true
+  })
+  .populate('comments.postedBy', 'name picture')
+  .exec((err, result)=> {
+    if(err) {
+      return res.status(422).json({error:err})
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+router.delete("/deletepost/:id", requireLogin, (req, res)=>{
+  Post.findById(req.params.id)
+  .populate("postedBy", "_id")
+  .exec((err, post)=> {
+    if(err || !post){
+      return res.status(422).json({error:err})
+    }
+    if(post.postedBy._id.toString()===req.user._id.toString()) {
+      post.remove()
+      .then(result_=>{
+        res.json({success: "Post Created", result_})
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
+  })
+})
+
 module.exports = router
