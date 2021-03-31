@@ -77,14 +77,14 @@ const CreatePost = () => {
         placeholder="Title"
         value={title}
         onChange={(e)=>setTitle(e.target.value)}
-        maxLength="12"
+        maxLength="14"
       />
       <input
         type="text"
         placeholder="body"
         value={body}
         onChange={(e)=>setBody(e.target.value)}
-        maxlength="100"
+        maxLength="100"
       />
       <div className="file-field input-field">
         <div className="btn blue darken-1">

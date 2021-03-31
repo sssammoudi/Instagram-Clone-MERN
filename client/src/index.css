@@ -107,7 +107,7 @@ textarea {
 
 .headerPost {
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     width: 350px;
     max-height: 100px;
 }

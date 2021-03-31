@@ -13,7 +13,8 @@ const Card = (post) => {
   const [commentText, setCommentText] = useState("")
 
   useEffect(() => {
-    fetch('/liked',{
+    if(data) {
+      fetch('/liked',{
       method: "PUT",
       headers: {
         "Content-Type":"application/json",
@@ -23,13 +24,14 @@ const Card = (post) => {
         postId: data._id,
         _id: state._id
       })
-  })
-  .then(res=>res.json())
-  .then(result=>{
-    setLiked(result)
-  }).catch(err=>{
-    console.log(err)
-  })
+      })
+      .then(res=>res.json())
+      .then(result=>{
+        setLiked(result)
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
   }, [data]);
 
   const likePost = ()=>{
@@ -128,13 +130,23 @@ const Card = (post) => {
       },
     })
     .then(res=>res.json())
-    .then(result=>{
-      setData(data._id !== result._id ? result : data)
+    .then(result_=>{
+      setData(null)
       M.toast({html: "Deleted Successfully", classes: "green accent-3"})
     })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
-
-  return data && (
+  if(data){
+    if(data.postedBy){
+      if(data.postedBy._id){
+        data.postedBy = data.postedBy._id 
+      }
+    }
+  }
+  
+  return data ? (
     <div className="card home-card">
       <header className="header-Post">
         <div className="headerPost">
@@ -144,7 +156,7 @@ const Card = (post) => {
           <div className="header-content">
             <h5 style={{padding:"0px"}}>
               {state.name}
-              {state._id===data.postedBy || state._id===data.postedBy._id && (
+              {state._id===data.postedBy && (
                 <i className="material-icons" style={{float:"right"}} onClick={()=>deletePost()}>delete</i>  
               )}
             </h5>
@@ -174,13 +186,13 @@ const Card = (post) => {
         <div className="card-opinion">
           <i className={liked ? "liked material-icons" : "material-icons"} onClick={(e)=>{likePost()}}>thumb_up</i>
           <i className={!liked ? "disliked material-icons" : "material-icons"} onClick={(e)=>{unLikePost()}}>thumb_down</i>
-          <h6>{data.likes.length} likes</h6>
+          <h6>{data.likes ? data.likes.length : 0} likes</h6>
           <div className="comments">
-            {data.comments.map(cmt=>{
+            {data.comments ? data.comments.map(cmt=>{
               return(
                 <h6 key={cmt._id}><span style={{fontWeight:"500"}}>{cmt.postedBy.name}</span> {cmt.text}</h6>
               )
-            })}
+            }) : <div></div> }
           </div>
           <form onSubmit={(e)=>{
             e.preventDefault()
@@ -190,8 +202,8 @@ const Card = (post) => {
           </form>
         </div>
       </div>
-    </div>
-  )
+    </div> 
+  ) : <div></div>
 }
 
 export default Card
