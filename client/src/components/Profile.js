@@ -16,7 +16,7 @@ const Profile = () => {
     .then(result=>{
       setMyPosts(result.myPost)
     })
-  }, [])
+  })
   return (
     <div className="profile">
       <div className="profile-header">

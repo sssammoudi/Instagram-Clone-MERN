@@ -15,11 +15,11 @@ const Home = () => {
     .then(result=>{
       setData(result.posts)
     })
-  , [])
+  ,)
   return (
     <div className="home">
       {data.map(post => (
-        <Card post={post}  key={post._id}/>
+        <Card post={post}  key={post._id} postedBy={post.postedBy} />
       ))}
     </div>
   )

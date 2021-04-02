@@ -34,7 +34,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(data.user))
         dispatch({type:"USER", payload:data.user})
         M.toast({html: data.success, classes: "green accent-3"})
-        history.push("/")
+        history.goBack()
       }
     })
   }

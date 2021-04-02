@@ -5,6 +5,7 @@ import Profile from "./components/Profile"
 import SignUp from "./components/SignUp"
 import Login from "./components/Login"
 import CreatePost from "./components/CreatePost"
+import OnePost from "./components/OnePost"
 import {BrowserRouter, Route, Switch, useHistory} from "react-router-dom"
 import {reducer, initialState} from "./reducers/userReducers"
 
@@ -37,6 +38,8 @@ const Routing = ()=> {
       </Route>
       <Route path="/login">
         <Login/>
+      </Route>
+      <Route path="/post/:id" component={OnePost}>
       </Route>
     </Switch>
   )

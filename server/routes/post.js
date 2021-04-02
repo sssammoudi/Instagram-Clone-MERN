@@ -34,6 +34,18 @@ router.get("/userPost", requireLogin, (req, res) => {
   ))
 })
 
+router.get("/GetPost/:id", (req, res) => {
+  Post.findById(req.params.id)
+  .populate('postedBy', '_id name picture')
+  .then(post=>{
+    console.log(post)
+    res.json({post})
+  })
+  .catch(err => (
+    console.log(err)
+  ))
+})
+
 router.post('/createPost', requireLogin, (req, res)=>{
   const {title, body, picture} = req.body
   if (!title || !body){
@@ -104,14 +116,13 @@ router.put("/unlike", requireLogin, (req, res)=>{
 router.put('/comment',requireLogin,(req,res)=>{
   const comment = {
       text: req.body.commentText,
-      postedBy: req.user._id
+      postedBy: {name: req.user.name, picture: req.user.picture, _id: req.user._id}
   }
   Post.findByIdAndUpdate(req.body.postId, {
     $push: {comments: comment}
   }, {
     new: true
   })
-  .populate('comments.postedBy', 'name picture')
   .exec((err, result)=> {
     if(err) {
       return res.status(422).json({error:err})
@@ -134,13 +145,27 @@ router.delete("/deletepost/:id", requireLogin, (req, res)=>{
         picture = picture.toString().replace("http://res.cloudinary.com/dcyfsjd/image/upload/", "").replace(".jpg", "").replace(".png", "")
         cloudinary.v2.uploader.destroy(picture)
       }
-      
       post.remove()
       .then(result_=>{
         res.json({success: "Post Created", result_})
       }).catch(err=>{
         console.log(err)
       })
+    }
+  })
+})
+
+router.put("/deletecomment", requireLogin, (req, res)=> {
+  Post.findByIdAndUpdate(req.body.postId, {
+    $pull: {comments: {_id: req.body._id}}
+  }, {
+    new: true
+  })
+  .exec((err, result)=> {
+    if(err) {
+      return res.status(422).json({error:err})
+    } else {
+      res.json(result)
     }
   })
 })

@@ -18,24 +18,29 @@ router.post('/signup', (req, res)=>{
     if(savedUser){
       return res.status(422).json({error: "Email already in use"})
     }
-    bcrypt.hash(password, 15)
-    .then(hashedPassword=>{
-      const user = new User({
-        email,
-        name,
-        password: hashedPassword,
-        picture: picture
+    User.findOne({name: name})
+    .then((savedUser)=>{
+      if(savedUser){
+        return res.status(422).json({error: "Name already in use"})
+      }
+      bcrypt.hash(password, 15)
+      .then(hashedPassword=>{
+        const user = new User({
+          email,
+          name,
+          password: hashedPassword,
+          picture: picture
+        })
+        user.save()
+        .then((user)=>{
+          res.json({success: "Account Created"})
+        })
+        .catch((err) => (
+          console.log(err)
+        ))
       })
-      user.save()
-      .then((user)=>{
-        res.json({success: "Account Created"})
-      })
-      .catch((err) => (
-        console.log(err)
-      ))
-    })
-    
-    })
+    })    
+  })
   .catch((err) => (
     console.log(err)
   ))

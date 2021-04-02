@@ -23,8 +23,9 @@ const postSchema = new mongoose.Schema({
   comments: [{
     text:String,
     postedBy: {
-      type: ObjectId,
-      ref: "User"
+      name: String,
+      picture: String,
+      _id: String,
     },
   }]
 }, { timestamps: true })

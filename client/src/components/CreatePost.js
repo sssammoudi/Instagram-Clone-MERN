@@ -84,7 +84,6 @@ const CreatePost = () => {
         placeholder="body"
         value={body}
         onChange={(e)=>setBody(e.target.value)}
-        maxLength="100"
       />
       <div className="file-field input-field">
         <div className="btn blue darken-1">
