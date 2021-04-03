@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin')
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 const Post = mongoose.model('Post');
 
 cloudinary.config({ 
@@ -38,7 +38,6 @@ router.get("/GetPost/:id", (req, res) => {
   Post.findById(req.params.id)
   .populate('postedBy', '_id name picture')
   .then(post=>{
-    console.log(post)
     res.json({post})
   })
   .catch(err => (
@@ -142,8 +141,16 @@ router.delete("/deletepost/:id", requireLogin, (req, res)=>{
     if(post.postedBy._id.toString()===req.user._id.toString()) {
       if(post.picture){
         let picture = post.picture
-        picture = picture.toString().replace("http://res.cloudinary.com/dcyfsjd/image/upload/", "").replace(".jpg", "").replace(".png", "")
-        cloudinary.v2.uploader.destroy(picture)
+        picture = picture.toString().replace("http://res.cloudinary.com/dcyfsjd/image/upload", "").replace(".jpg", "").replace(".png", "")
+        picture = picture.split("/")
+        console.log(picture[2])
+        cloudinary.api.delete_resources(
+          picture[2],
+          {invalidate: true}, 
+          (result, err) => {
+            console.log(err, result)
+          }
+        )
       }
       post.remove()
       .then(result_=>{

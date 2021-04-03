@@ -7,6 +7,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
+  const [click, setClick] = useState(false)
   const submitData = {};
 
   function ImgUpload() {
@@ -63,8 +64,12 @@ const CreatePost = () => {
       return M.toast({html: "Fill the missing field", classes: "red darken-1"})
     }
     if(image) {
+      setClick(true)
+      history.push("/")
       return ImgUpload()
     } else if(!image && body) {
+      setClick(true)
+      history.push("/")
       return addDB()
     }
   }
@@ -86,7 +91,7 @@ const CreatePost = () => {
         onChange={(e)=>setBody(e.target.value)}
       />
       <div className="file-field input-field">
-        <div className="btn blue darken-1">
+        <div className="btn blue darken-1 file-chooser">
           <span>Upload Image</span>
           <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} accept=".jpg, .jpeg, .png"/>
         </div>
@@ -94,7 +99,7 @@ const CreatePost = () => {
           <input className="file-path validate" type="text" />
         </div>
       </div>
-      <button className="btn blue darken-1" onClick={(e)=>{PostPost()}}>Post</button>
+      <button className="btn blue darken-1" onClick={(e)=>{PostPost(); e.target.disabled=click;}}>Post</button>
     </div>
   )
 }

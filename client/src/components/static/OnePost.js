@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import Card from './static/Card'
+import Card from './Card'
 import {useHistory} from "react-router-dom"
+import {Button} from "@material-ui/core"
 
 function OnePost(props) {
   const [post, setPost] = useState()
@@ -15,7 +16,6 @@ function OnePost(props) {
     .then(res => res.json())
     .then(result=>{
       setPost(result.post)
-      console.log(post)
     })
     .catch(error=>{
       console.log(error)
@@ -23,6 +23,7 @@ function OnePost(props) {
   }, [])
   return post ? 
     <div>
+      <Button variant="contained" color="primary" className="Back-btn"  onClick={()=>{history.goBack()}}>Go Back</Button>
       <Card post={post}  key={post._id} postedBy={post.postedBy}/>
     </div>
   : <div></div>

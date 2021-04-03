@@ -14,8 +14,7 @@ const Home = () => {
     .then(res => res.json())
     .then(result=>{
       setData(result.posts)
-    })
-  ,)
+  }, []))
   return (
     <div className="home">
       {data.map(post => (

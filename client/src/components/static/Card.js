@@ -6,6 +6,7 @@ import {UserContext} from "../../App"
 import M from "materialize-css"
 import ShareIcon from '@material-ui/icons/Share';
 import Copy from 'clipboard-react'
+import {Link} from "react-router-dom"
 
 const Card = ({post, postedBy}) => {
   const [data, setData] = useState(post)
@@ -156,7 +157,9 @@ const Card = ({post, postedBy}) => {
           </div>
           <div className="header-content">
             <h5 style={{padding:"0px"}}>
-              {postedBy.name}
+              <Link to={"/profile/"+postedBy._id} style={{color:"white"}}>
+                {postedBy.name}
+              </Link>
               {state._id===postedBy._id && (
                 <i className="material-icons" style={{float:"right"}} onClick={()=>deletePost()}>delete</i>  
               )}
