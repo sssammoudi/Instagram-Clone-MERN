@@ -3,7 +3,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* background: #000000c9; */
+    background: #000000c9;
     color: rgb(255, 254, 254) !important;
 }
 
@@ -58,7 +58,8 @@ textarea {
     border-bottom: 2px solid rgb(90, 90, 90) !important;
 }
 
-.profile-header>img {
+.profile-header>img,
+.profile-header>div>img {
     margin-right: 20px !important;
 }
 

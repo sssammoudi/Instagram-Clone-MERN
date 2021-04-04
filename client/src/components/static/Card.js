@@ -157,7 +157,7 @@ const Card = ({post, postedBy}) => {
           </div>
           <div className="header-content">
             <h5 style={{padding:"0px"}}>
-              <Link to={"/profile/"+postedBy._id} style={{color:"white"}}>
+              <Link to={postedBy._id===state._id ? "/profile" : "/profile/"+postedBy._id} style={{color:"white"}}>
                 {postedBy.name}
               </Link>
               {state._id===postedBy._id && (

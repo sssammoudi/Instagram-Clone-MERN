@@ -29,8 +29,8 @@ function Profile() {
           <h4>{state ? state.name : "loading..."}</h4>
           <h5>{state ? state.email : "loading..."}</h5>
           <div className="profile-data">
-            <h6>Followers</h6>
-            <h6>Folowing</h6>
+            <h6>{state.followers.length} Followers</h6>
+            <h6>{state.following.length} Folowing</h6>
             <h6>{myPosts ? myPosts.length : 0} Posts</h6>
           </div>
         </div>
