@@ -8,10 +8,8 @@ function UserProfile(props) {
   const {state, dispatch} = useContext(UserContext)
   const [userPosts, setUserPosts] = useState([])
   const [userData, setUserData] = useState()
-  const user = localStorage.getItem("user")
-  const [followed, setFollowed] = useState(state ? !user.includes(props.match.params.id) : true)
+  const [followed, setNotFollowed] = useState(state ? !state.following.includes(props.match.params.id) : true)
   useEffect(() => {
-    console.log(user, props.match.params.id)
     fetch(`/user/${props.match.params.id}`, {
       method: "GET",
       headers:{
@@ -39,8 +37,28 @@ function UserProfile(props) {
     .then(res=>res.json())
     .then(result=>{
       console.log(result)
-      setFollowed(false)
-      localStorage.setItem("user", result)
+      setNotFollowed(false)
+      dispatch({type:"UPDATE", result})
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
+
+  const unFollowUser = ()=>{
+    fetch("/unfollow", {
+      method: "PUT",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        unfollowId: props.match.params.id,
+      })
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      setNotFollowed(true)
       dispatch({type:"USER", result})
     }).catch(err=>{
       console.log(err)
@@ -64,7 +82,7 @@ function UserProfile(props) {
           {followed ?
             <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={(e)=>{followUser()}}>Follow</button>
           : 
-            <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1">UnFollow</button>
+            <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={(e)=>{unFollowUser()}}>UnFollow</button>
           }
         </div>
         <br />
