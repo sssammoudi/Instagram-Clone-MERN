@@ -177,10 +177,12 @@ const Card = ({post, postedBy}) => {
                 {clicked && <img src={heart} style={{width:"100px"}} loading="lazy"/>}
               </span>
             </div>
-            <br />
-            <div className="text-card text-card2">
-              <h6>{data.body}</h6>
-            </div>
+            {data.body!==" " ?
+              <div className="text-card text-card2">
+                <h6>{data.body}</h6>
+              </div> :
+              <br />
+            }
           </div>) : (
             <div className="text-card">
               <h4>{data.body}</h4>
@@ -196,7 +198,7 @@ const Card = ({post, postedBy}) => {
             {data.comments.map(cmt=>{
               return (
                 <h6 key={cmt._id}>
-                  <span style={{fontWeight:"500"}}>{cmt.postedBy.name} </span>
+                  <Link to={cmt.postedBy._id===state._id ? "/profile" : "/profile/"+cmt.postedBy._id}><span style={{fontWeight:"500"}}>{cmt.postedBy.name} </span></Link>
                   {cmt.text}
                   {state._id===cmt.postedBy._id && (
                     <i className="material-icons" style={{float:"right"}} onClick={()=>deleteComment(cmt._id)}>delete</i>  

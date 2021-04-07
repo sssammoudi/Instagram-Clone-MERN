@@ -21,6 +21,15 @@ h2 {
     margin-top: 30px;
 }
 
+.Nav-Tab {
+    background: none;
+    cursor: pointer;
+}
+
+nav ul a:hover {
+    background: none;
+}
+
 .auth-card,
 .CreatePost-Card {
     padding: 20px;
@@ -47,7 +56,7 @@ textarea {
 }
 
 .profile {
-    max-width: 550px;
+    max-width: 600px;
     margin: 0px auto;
 }
 
@@ -63,13 +72,18 @@ textarea {
     margin-right: 20px !important;
 }
 
+.profileData>h5 {
+    font-size: 1.2em !important;
+}
+
 .profile-data {
     display: flex;
     justify-content: space-between;
 }
 
 .profile-data>h6 {
-    margin-right: 20px !important;
+    margin-right: 10px !important;
+    font-size: 1.2em !important;
 }
 
 .profile-gallery {
@@ -129,6 +143,7 @@ textarea {
     margin: 15px;
     border-radius: 50px;
     height: 70px;
+    max-width: 80px;
 }
 
 .header-content {
@@ -143,6 +158,10 @@ textarea {
     overflow-wrap: break-word;
     max-height: 250px;
     overflow-y: scroll;
+    border: 1px white solid;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .text-card2 {

@@ -1,6 +1,9 @@
 import React, {useContext} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {UserContext} from '../../App'
+import profile from "../images/profile-pic.png"
+import create from "../images/create.png"
+import logout from "../images/logout.png"
 
 function Nav() {
   const history = useHistory()
@@ -8,24 +11,21 @@ function Nav() {
   const renderList = ()=>{
     if(state) {
       return [
-        <li><Link to="/createpost">Create Post</Link></li>,
-        <li><Link to="/profile">Profile</Link></li>,
-        <li>
-          <button className="btn #c62828 red darken-3"
-            onClick={()=>{
+        <li key="1"><Link to="/followingspost">Followings Post</Link></li>,
+        <li key="2"><Link to="/createpost"><img src={create} alt="Create-Post" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+        <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+        <li key="4">
+          <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
               localStorage.clear()
               dispatch({type:"CLEAR"})
               history.push('/login')
-            }}
-            >
-            Logout
-          </button>
-        </li>
+            }}/>
+        </li>,
       ]
     } else {
       return [
-        <li><Link to="/login">Login</Link></li>,
-        <li><Link to="/signup">Sign up</Link></li>
+        <li key="1"><Link to="/login">Login</Link></li>,
+        <li key="2"><Link to="/signup">Sign up</Link></li>
       ]
     }
   }

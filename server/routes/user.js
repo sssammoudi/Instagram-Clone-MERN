@@ -5,6 +5,13 @@ const requireLogin = require('../middleware/requireLogin')
 const Post = mongoose.model('Post');
 const User = mongoose.model('User');
 
+router.get("/userProfile", requireLogin, (req, res) =>{
+  User.findById(req.user._id)
+  .then(user=>{
+    res.json(user)
+  })
+})
+
 router.get("/user/:id", requireLogin, (req, res)=>{
   User.findOne({_id: req.params.id})
   .select("-password")
@@ -38,8 +45,8 @@ router.put('/follow', requireLogin, (req,res)=>{
       new:true
     })
     .select("-password")
-    .then(result=>{
-      res.json(result)
+    .then(resu=>{
+      res.json({result, resu})
     })
     .catch(err=>{
       return res.status(422).json({error:err})
@@ -57,13 +64,13 @@ router.put('/unfollow', requireLogin, (req,res)=>{
       return res.status(422).json({error:err})
     }
     User.findByIdAndUpdate(req.user._id, {
-      $pull: {following: req.body.followId}
+      $pull: {following: req.body.unfollowId}
     }, {
       new:true
     })
     .select("-password")
-    .then(result=>{
-      res.json(result)
+    .then(resu=>{
+      res.json({result, resu: resu})
     })
     .catch(err=>{
       return res.status(422).json({error:err})

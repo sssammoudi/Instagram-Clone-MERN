@@ -4,11 +4,12 @@ import icon from "../images/profile-pic.png"
 import {UserContext} from "../../App"
 
 function UserProfile(props) {
+  const user = JSON.parse(localStorage.getItem("user"))
   const history = useHistory()
   const {state, dispatch} = useContext(UserContext)
   const [userPosts, setUserPosts] = useState([])
   const [userData, setUserData] = useState()
-  const [followed, setNotFollowed] = useState(state ? !state.following.includes(props.match.params.id) : true)
+  const [followed, setNotFollowed] = useState(user.followers ? !user.following.includes(props.match.params.id) : true)
   useEffect(() => {
     fetch(`/user/${props.match.params.id}`, {
       method: "GET",
@@ -35,10 +36,15 @@ function UserProfile(props) {
       })
     })
     .then(res=>res.json())
-    .then(result=>{
-      console.log(result)
+    .then((result)=>{
       setNotFollowed(false)
-      dispatch({type:"UPDATE", result})
+      dispatch({type:"UPDATE", payload: {
+        following: result.following,
+        followers: result.followers
+      }})
+      setUserData(result.result)
+      console.log(user)
+      localStorage.setItem("user", JSON.stringify(result.resu))
     }).catch(err=>{
       console.log(err)
     })
@@ -56,10 +62,14 @@ function UserProfile(props) {
       })
     })
     .then(res=>res.json())
-    .then(result=>{
-      console.log(result)
+    .then((result)=>{
       setNotFollowed(true)
-      dispatch({type:"USER", result})
+      dispatch({type:"UPDATE", payload: {
+        following: result.following,
+        followers: result.followers
+      }})
+      setUserData(result.result)
+      localStorage.setItem("user", JSON.stringify(result.resu))
     }).catch(err=>{
       console.log(err)
     })
@@ -69,14 +79,13 @@ function UserProfile(props) {
     <div className="profile">
       <div className="profile-header">
         <div>
-          <img style={{width: "120px", height: "120px", borderRadius: "100px"}} src={userData.picture ? userData.picture :icon} alt="title" />
+          <img style={{width: "120px", height: "120px", borderRadius: "100px"}} src={userData.picture ? userData.picture : icon} alt="title" />
         </div>
         <div>
           <h4>{userData.name}</h4>
-          {/* <h5>{"loading..."}</h5> */}
           <div className="profile-data">
-            <h6>{userData.followers.length} Followers</h6>
-            <h6>{userData.following.length} Folowing</h6>
+            <h6>{userData.followers ? userData.followers.length : 0} Followers</h6>
+            <h6>{userData.following ? userData.following.length : 0} Folowing</h6>
             <h6>{userPosts ? userPosts.length : 0} Posts</h6>
           </div>
           {followed ?
