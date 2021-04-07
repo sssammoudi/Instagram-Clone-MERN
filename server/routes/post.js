@@ -34,6 +34,18 @@ router.get("/userPost", requireLogin, (req, res) => {
   ))
 })
 
+router.get("/followingsPost", requireLogin, (req, res) => {
+  Post.find({postedBy: {$in:req.user.following}})
+  .populate('postedBy', '_id name picture')
+  .sort({createdAt: 'desc'})
+  .then(posts => {
+    res.json({posts})
+  })
+  .catch(err => (
+    console.log(err)
+  ))
+})
+
 router.get("/GetPost/:id", (req, res) => {
   Post.findById(req.params.id)
   .populate('postedBy', '_id name picture')

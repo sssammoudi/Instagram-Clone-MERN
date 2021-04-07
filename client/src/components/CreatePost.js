@@ -1,13 +1,16 @@
 import React, {useState} from 'react'
 import {useHistory} from "react-router-dom"
 import M from "materialize-css"
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
 const CreatePost = () => {
   const history = useHistory()
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
-  const [click, setClick] = useState(false)
+  const [click, setClick] = useState(false);
+  const [takePic, setTakePic] = useState(false);
   const submitData = {};
 
   function ImgUpload() {
@@ -73,33 +76,54 @@ const CreatePost = () => {
       return addDB()
     }
   }
+  
+  const handleCameraError = (error) => {
+    console.log('handleCameraError', error);
+  }
 
   return (
-    <div className="card input-filled  black CreatePost-Card">
-      <h2>Create New Post</h2>
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e)=>setTitle(e.target.value)}
-        maxLength="14"
-      />
-      <input
-        type="text"
-        placeholder="body"
-        value={body}
-        onChange={(e)=>setBody(e.target.value)}
-      />
-      <div className="file-field input-field">
-        <div className="btn blue darken-1 file-chooser">
-          <span>Upload Image</span>
-          <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} accept=".jpg, .jpeg, .png"/>
+    <div className="CreatePost-Card">
+      <div className="card input-filled black CreatePost-Card">
+        <h2>Create New Post</h2>
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e)=>{setTitle(e.target.value); setTakePic(false);}}
+          maxLength="14"
+        />
+        <input
+          type="text"
+          placeholder="body"
+          value={body}
+          onChange={(e)=>{setBody(e.target.value); setTakePic(false);}}
+        />
+        <div className="file-field input-field">
+          <div>
+            <button className="btn blue darken-1 file-chooser" onClick={(e) => {setTakePic(true)}}>Take Photo</button>
+          </div>
         </div>
-        <div className="file-path-wrapper">
-          <input className="file-path validate" type="text" />
+        <br/><br/>
+        <div className="file-field input-field">
+          <div className="btn blue darken-1 file-chooser">
+            <span>Upload Image</span>
+            <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} accept=".jpg, .jpeg, .png"/>
+          </div>
+          <div className="file-path-wrapper">
+            <input className="file-path validate" type="text" value={image ? (image.name ? image.name : 'photo.png') : ''}/>
+          </div>
         </div>
+        <button className="btn blue darken-1" onClick={(e)=>{PostPost(); e.target.disabled=click;}}>Post</button>
       </div>
-      <button className="btn blue darken-1" onClick={(e)=>{PostPost(); e.target.disabled=click;}}>Post</button>
+      {takePic ? 
+        <Camera
+          onTakePhoto = {(Photo) => {setImage(Photo);}}
+          onCameraError = {(error) => {handleCameraError(error)}}
+          idealResolution = {{width: 400, height: 400}}
+          imageCompression = {0.97}
+        /> : 
+        <div></div>
+      }
     </div>
   )
 }

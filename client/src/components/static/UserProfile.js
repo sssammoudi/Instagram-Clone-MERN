@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useHistory } from "react-router-dom"
 import icon from "../images/profile-pic.png"
 import {UserContext} from "../../App"
+import followedImg from "../images/followed.png"
+import followImg from "../images/follow.png"
 
 function UserProfile(props) {
   const user = JSON.parse(localStorage.getItem("user"))
@@ -89,9 +91,9 @@ function UserProfile(props) {
             <h6>{userPosts ? userPosts.length : 0} Posts</h6>
           </div>
           {followed ?
-            <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={(e)=>{followUser()}}>Follow</button>
+            <img src={followImg} className="Follow-btn" width="50px" height="50px" onClick={(e)=>{followUser()}}/>
           : 
-            <button style={{margin:"10px"}} className="btn waves-effect waves-light #64b5f6 blue darken-1" onClick={(e)=>{unFollowUser()}}>UnFollow</button>
+            <img src={followedImg} className="Follow-btn" width="50px" height="50px" onClick={(e)=>{unFollowUser()}}/>
           }
         </div>
         <br />

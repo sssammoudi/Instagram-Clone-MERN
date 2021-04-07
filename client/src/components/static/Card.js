@@ -6,9 +6,10 @@ import {UserContext} from "../../App"
 import M from "materialize-css"
 import ShareIcon from '@material-ui/icons/Share';
 import Copy from 'clipboard-react'
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 
 const Card = ({post, postedBy}) => {
+  const history = useHistory()
   const [data, setData] = useState(post)
   const {state, dispatch} = useContext(UserContext)
   const [liked, setLiked] = useState(null);
@@ -141,6 +142,7 @@ const Card = ({post, postedBy}) => {
     .then(res=>res.json())
     .then(result=>{
       setData(result)
+      history.push("/")
       M.toast({html: "Deleted Successfully", classes: "green accent-3"})
     })
     .catch((err)=>{

@@ -24,10 +24,17 @@ h2 {
 .Nav-Tab {
     background: none;
     cursor: pointer;
+    padding-top: 2px;
+    margin-left: 2px;
+    margin: 0;
 }
 
 nav ul a:hover {
     background: none;
+}
+
+.Follow-btn {
+    background: whitesmoke;
 }
 
 .auth-card,
@@ -37,6 +44,10 @@ nav ul a:hover {
     max-width: 400px;
     margin: 10px auto;
     border-radius: 20px;
+}
+
+.CreatePost-Card {
+    height: 400px !important;
 }
 
 input,
@@ -166,6 +177,7 @@ textarea {
 
 .text-card2 {
     max-height: 150px;
+    margin-top: 10px;
 }
 
 .text-card::-webkit-scrollbar,
