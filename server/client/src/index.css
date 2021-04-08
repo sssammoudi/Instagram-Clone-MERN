@@ -123,6 +123,10 @@ textarea {
     border-radius: 20px;
 }
 
+.CreatePost-Card {
+    max-height: 600px
+}
+
 .home-card {
     background: transparent;
     box-shadow: none;
