@@ -18,7 +18,7 @@ router.post('/signup', (req, res)=>{
     if(savedUser){
       return res.status(422).json({error: "Email already in use"})
     }
-    User.findOne({name: name})
+    User.findOne({name: name.toLowerCase()})
     .then((savedUser)=>{
       if(savedUser){
         return res.status(422).json({error: "Name already in use"})
@@ -27,7 +27,7 @@ router.post('/signup', (req, res)=>{
       .then(hashedPassword=>{
         const user = new User({
           email,
-          name,
+          name: name.toLowerCase(),
           password: hashedPassword,
           picture: picture
         })

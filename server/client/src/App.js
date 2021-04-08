@@ -37,7 +37,7 @@ const Routing = ()=> {
         localStorage.setItem("user", JSON.stringify(result))
       })
     }
-  })
+  }, [])
   return (
     <Switch>    
       <Route exact path="/">

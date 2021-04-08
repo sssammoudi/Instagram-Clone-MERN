@@ -5,14 +5,25 @@ const requireLogin = require('../middleware/requireLogin')
 const Post = mongoose.model('Post');
 const User = mongoose.model('User');
 
-router.get("/userProfile", requireLogin, (req, res) =>{
+router.get("/userProfile", requireLogin, (req, res) => {
   User.findById(req.user._id)
   .then(user=>{
     res.json(user)
   })
 })
 
-router.get("/user/:id", requireLogin, (req, res)=>{
+router.post("/findUser", (req, res) => {
+  let userPattern = new RegExp("^"+req.body.value.toLowerCase())
+  User.find({name: {$regex: userPattern}})
+  .then(user=>{
+    res.json(user)
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+})
+
+router.get("/user/:id", requireLogin, (req, res) => {
   User.findOne({_id: req.params.id})
   .select("-password")
   .then(user=>{

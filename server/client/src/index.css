@@ -29,6 +29,39 @@ h2 {
     margin: 0;
 }
 
+.modal-content,
+.modal-footer {
+    background-color: rgb(0, 0, 0) !important;
+}
+
+.modal-content input {
+    color: white;
+}
+
+.large {
+    font-size: 2em !important;
+}
+
+.search {
+    background-color: rgb(0, 0, 0) !important;
+    overflow-y: scroll;
+}
+
+.search-item {
+    width: 100%;
+    font-size: 25px;
+    text-align: left;
+    padding-top: 0 !important;
+    border-bottom: 3px solid rgba(255, 255, 255);
+    height: 50px;
+    padding-left: 10px;
+}
+
+.modal-footer>button {
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+}
+
 nav ul a:hover {
     background: none;
 }
@@ -185,7 +218,8 @@ textarea {
 }
 
 .text-card::-webkit-scrollbar,
-.comments::-webkit-scrollbar {
+.comments::-webkit-scrollbar,
+.search::-webkit-scrollbar {
     display: none;
 }
 
@@ -196,10 +230,6 @@ textarea {
 h3 {
     margin: 0 !important;
     padding: 0 !important;
-}
-
-.collection-item {
-    width: 100%;
 }
 
 .heart-icon {
