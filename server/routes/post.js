@@ -26,6 +26,7 @@ router.get("/allPosts", (req, res) => {
 router.get("/userPost", requireLogin, (req, res) => {
   Post.find({postedBy: req.user._id})
   .populate('postedBy', '_id name')
+  .sort({createdAt: 'desc'})
   .then(myPost => {
     res.json({myPost})
   })
@@ -78,18 +79,18 @@ router.post('/createPost', requireLogin, (req, res)=>{
   ))
 })
 
-router.put("/liked", (req, res)=>{
-  Post.find({_id: req.body.postId, likes: req.body._id})
-  .then(result=>{
+router.get("/liked/:postId/:id", (req, res)=>{
+  Post.find({_id: req.params.postId, likes: req.params.id})
+  .then((result, err)=>{
     if(result[0]){
       return res.json(true)
     } else {
-      return
+      return res.json(false)
     }
   })
 })
 
-router.put("/like", requireLogin, (req, res)=>{
+router.post("/like", requireLogin, (req, res)=>{
   Post.find({_id: req.body.postId, likes: req.body._id})
   .then(result=>{
     if(result[0]){
@@ -110,7 +111,7 @@ router.put("/like", requireLogin, (req, res)=>{
   })
 })
 
-router.put("/unlike", requireLogin, (req, res)=>{
+router.post("/unlike", requireLogin, (req, res)=>{
   Post.findByIdAndUpdate(req.body.postId, {
     $pull: {likes: req.body._id}
   }, {
@@ -151,7 +152,7 @@ router.delete("/deletepost/:id", requireLogin, (req, res)=>{
       return res.status(422).json({error:err})
     }
     if(post.postedBy._id.toString()===req.user._id.toString()) {
-      if(post.picture){
+      if(req.headers.picture && post.picture){
         let picture = post.picture
         picture = picture.toString().replace("http://res.cloudinary.com/dcyfsjd/image/upload", "").replace(".jpg", "").replace(".png", "")
         picture = picture.split("/")
@@ -166,7 +167,7 @@ router.delete("/deletepost/:id", requireLogin, (req, res)=>{
       }
       post.remove()
       .then(result_=>{
-        res.json({success: "Post Created", result_})
+        res.json({success: "Post Deleted", result_})
       }).catch(err=>{
         console.log(err)
       })

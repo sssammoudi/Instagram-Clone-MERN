@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import Card from './static/Card'
 
 const Home = () => {
   const [data,setData] = useState([])
 
-  useEffect(() => 
+  useEffect(() => {
     fetch("/allPosts", {
       method: "GET",
       headers:{
@@ -14,14 +14,17 @@ const Home = () => {
     .then(res => res.json())
     .then(result=>{
       setData(result.posts)
-  }, []))
-  return (
+    })
+  }, [])
+  return data ? (
     <div className="home">
-      {data.map(post => (
-        <Card post={post}  key={post._id} postedBy={post.postedBy} />
-      ))}
+      {data.map((post) => {
+        return(
+          <Card post={post}  key={post._id} postedBy={post.postedBy} />
+        )
+      })}
     </div>
-  )
+  ) : <h1>Loading...</h1>
 }
 
 export default Home

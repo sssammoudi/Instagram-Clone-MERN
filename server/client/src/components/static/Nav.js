@@ -18,12 +18,6 @@ function Nav() {
   useEffect(()=>{
     M.Modal.init(searchModal.current)
   }, [])
-
-  useEffect(() => {
-    if(!search){
-      setUserDetails([])
-    }
-  }, [setUserDetails])
   
   const renderList = ()=>{
     if(state) {
@@ -74,8 +68,8 @@ function Nav() {
         </ul>
       </div>
       <br />
-      <div id="modal1" class="modal" ref={searchModal} style={{color:"black"}}>
-        <div className="modal-content">
+      <div id="modal1" className="modal" ref={searchModal} style={{color:"black"}}>
+        <div className="modal-content" style={{maxHeight:"500px", overflowY:"scroll"}}>
           <input
             placeholder="search users"
             value={search}
@@ -85,7 +79,8 @@ function Nav() {
             {userDetails.map(user=>{
               return (
                 <Link
-                  to={user._id !== state._id ? "/profile/"+user._id:'/profile'}
+                  key={user._id}
+                  to={user._id !== state._id ? "/profile/"+user._id : '/profile'}
                   onClick={()=>{
                     M.Modal.getInstance(searchModal.current).close()
                     setSearch("")

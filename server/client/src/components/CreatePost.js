@@ -1,17 +1,32 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {useHistory} from "react-router-dom"
 import M from "materialize-css"
 import Camera from 'react-html5-camera-photo';
+import {UserContext} from "../App"
 import 'react-html5-camera-photo/build/css/index.css';
 
 const CreatePost = () => {
+  const baseData = JSON.parse(sessionStorage.getItem("data"))
   const history = useHistory()
+  const {state, dispatch} = useContext(UserContext)
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
   const [click, setClick] = useState(false);
   const [takePic, setTakePic] = useState(false);
   const submitData = {};
+
+  useEffect(() => {
+    if(baseData) {
+      setTitle(baseData.title)
+      setBody(baseData.body)
+      setImage(baseData.picture)
+      submitData.picture = baseData.picture
+      console.log(submitData)
+    }
+  }, [])
+
+  
 
   function ImgUpload() {
     const data = new FormData();
@@ -37,27 +52,63 @@ const CreatePost = () => {
     submitData.title = title
     submitData.body = body || " "
     console.log(submitData)
-    fetch("/createPost", {
-      method: "POST",
-      headers: {
-        "Content-Type": "Application/json",
-        "Authorization": "Bearer "+localStorage.getItem("jwt")
-      },
-      body: JSON.stringify({
-        title: submitData.title, 
-        body: submitData.body,
-        picture: submitData.picture, 
+    if(baseData) {
+      fetch("/createPost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          "Authorization": "Bearer "+localStorage.getItem("jwt")
+        },
+        body: JSON.stringify({
+          title: submitData.title, 
+          body: submitData.body,
+          picture: submitData.picture, 
+        })
       })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if(data.error) {
-        M.toast({html: data.error, classes: "red darken-1"})
-      } else {
-        M.toast({html: data.success, classes: "green accent-3"})
-        history.push("/")
-      }
-    })
+      .then(res => res.json())
+      .then(data => {
+        if(data.error) {
+          M.toast({html: data.error, classes: "red darken-1"})
+        } else {
+          M.toast({html: data.success, classes: "green accent-3"})
+          fetch(`/deletepost/${baseData._id}`, {
+            method:"DELETE",
+            headers:{
+              "Content-Type":"application/json",
+              "Authorization":"Bearer "+localStorage.getItem("jwt"),
+              "_id": state._id,
+              "picture": false
+            },
+          })
+          .then(res=>res.json())
+          .then(result_=>{
+            console.log(1)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+          history.push("/")
+        }
+      })
+    } else {
+      fetch(`/deletepost/${baseData._id}`, {
+        method:"DELETE",
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer "+localStorage.getItem("jwt"),
+          "_id": state._id,
+          "picture": false
+        },
+      })
+      .then(res=>res.json())
+      .then(result_=>{
+        console.log(1)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      history.push("/")
+    }  
   }
 
   function PostPost() {
@@ -66,13 +117,11 @@ const CreatePost = () => {
     } else if(!body && !image) {
       return M.toast({html: "Fill the missing field", classes: "red darken-1"})
     }
-    if(image) {
+    if(image && !submitData.picture) {
       setClick(true)
-      history.push("/")
       return ImgUpload()
-    } else if(!image && body) {
+    } else if(body) {
       setClick(true)
-      history.push("/")
       return addDB()
     }
   }
@@ -110,7 +159,7 @@ const CreatePost = () => {
             <input type="file" onChange={(e)=>{setImage(e.target.files[0])}} accept=".jpg, .jpeg, .png"/>
           </div>
           <div className="file-path-wrapper">
-            <input className="file-path validate" type="text" value={image ? (image.name ? image.name : 'photo.png') : ''}/>
+            <input className="file-path validate" type="text" value={image ? (image.name ? image.name : 'photo.png') : ''} onChange={(e)=>{console.log(e.target.files)}}/>
           </div>
         </div>
         <button className="btn blue darken-1" onClick={(e)=>{PostPost(); e.target.disabled=click;}}>Post</button>

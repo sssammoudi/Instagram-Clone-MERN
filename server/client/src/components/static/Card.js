@@ -9,38 +9,36 @@ import Copy from 'clipboard-react'
 import {Link, useHistory} from "react-router-dom"
 
 const Card = ({post, postedBy}) => {
+  sessionStorage.setItem("data", null)
   const history = useHistory()
   const [data, setData] = useState(post)
   const {state, dispatch} = useContext(UserContext)
   const [liked, setLiked] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [commentText, setCommentText] = useState("")
+  // const profile = "/profile/"+postedBy._id
+  const profile = postedBy._id!==state._id ? "/profile/"+postedBy._id : "/profile";
 
   useEffect(() => {
-    if(data) {
-      fetch('/liked',{
-        method: "PUT",
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization":"Bearer "+localStorage.getItem("jwt")
-        },
-        body: JSON.stringify({
-          postId: data._id,
-          _id: state._id
-        })
-      })
-      .then(res=>res.json())
-      .then(result=>{
-        setLiked(result)
-      }).catch(err=>{
-        console.log(err)
-      })
-    }
-  }, [data]);
+    fetch(`/liked/${data._id}/${state._id}`,{
+      method: "GET",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
+      }
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      setLiked(result)
+      console.log(liked)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }, []);
 
   const likePost = ()=>{
     fetch('/like',{
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type":"application/json",
         "Authorization":"Bearer "+localStorage.getItem("jwt")
@@ -52,12 +50,12 @@ const Card = ({post, postedBy}) => {
     })
     .then(res=>res.json())
     .then(result=>{
-      const newData = result
-      setData(newData)
+      setData(result)
+      console.log(data)
     }).catch(err=>{
       console.log(err)
     })
-
+    setLiked(true)
     setClicked(true)
     setTimeout(() => {
       setClicked(false)
@@ -67,7 +65,7 @@ const Card = ({post, postedBy}) => {
   const unLikePost = ()=>{
     setLiked(false)
     fetch('/unlike',{
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type":"application/json",
           "Authorization":"Bearer "+localStorage.getItem("jwt")
@@ -79,33 +77,33 @@ const Card = ({post, postedBy}) => {
     })
     .then(res=>res.json())
     .then(result=>{
-      const newData = result
-      setData(newData)
+      setData(result)
     }).catch(err=>{
       console.log(err)
     })
   }
 
   const comment = () => {
-    fetch('/comment', {
-      method: "PUT",
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization":"Bearer "+localStorage.getItem("jwt")
-        },
-        body: JSON.stringify({
-          postId: data._id,
-          commentText
-        })
+    if(commentText) {
+      fetch('/comment', {
+        method: "PUT",
+          headers: {
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
+          },
+          body: JSON.stringify({
+            postId: data._id,
+            commentText
+          })
       })
-    .then(res=>res.json())
-    .then(result=>{
-      setCommentText("")
-      const newData = result
-      setData(newData)
-    }).catch(err=>{
-      console.log(err)
-    })
+      .then(res=>res.json())
+      .then(result=>{
+        setCommentText("")
+        setData(result)
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
   }
 
   const deletePost = () => {
@@ -114,7 +112,8 @@ const Card = ({post, postedBy}) => {
       headers:{
         "Content-Type":"application/json",
         "Authorization":"Bearer "+localStorage.getItem("jwt"),
-        "_id": state._id
+        "_id": state._id,
+        "picture": true
       },
     })
     .then(res=>res.json())
@@ -142,7 +141,6 @@ const Card = ({post, postedBy}) => {
     .then(res=>res.json())
     .then(result=>{
       setData(result)
-      history.push("/")
       M.toast({html: "Deleted Successfully", classes: "green accent-3"})
     })
     .catch((err)=>{
@@ -150,21 +148,29 @@ const Card = ({post, postedBy}) => {
     })
   }
 
+  const editPost = () => {
+    sessionStorage.setItem("data", JSON.stringify(data))
+    history.push("/createpost")
+  }
+
   return data ? (
     <div className="card home-card">
       <header className="header-Post">
         <div className="headerPost">
-          <div className="headerImage">
-            <img src={postedBy.picture ? postedBy.picture : icon}/>
+          <div className="headerImage" style={{cursor:'pointer'}} onClick={(e) => {history.push(profile)}}>
+            <img src={postedBy.picture ? postedBy.picture : icon} onClick={(e) => {history.push(profile)}}/>
           </div>
           <div className="header-content">
-            <h5 style={{padding:"0px"}}>
-              <Link to={postedBy._id===state._id ? "/profile" : "/profile/"+postedBy._id} style={{color:"white"}}>
+            <h5 style={{padding:"0px", display:"flex", justifyContent:"space-around"}}>
+              <Link to={profile} style={{color:"white"}} onClick={(e) => {history.push(profile)}}>
                 {postedBy.name}
               </Link>
-              {state._id===postedBy._id && (
-                <i className="material-icons" style={{float:"right"}} onClick={()=>deletePost()}>delete</i>  
-              )}
+              {state._id===postedBy._id && 
+                <div>
+                  <i className="material-icons" style={{float:"right", cursor:'pointer'}} onClick={(e)=>deletePost()}>delete</i>
+                  <i className="material-icons" style={{float:"right", cursor:'pointer'}} onClick={(e)=>editPost()}>edit</i>
+                </div>
+              }
             </h5>
             <h3><strong style={{fontSize: "35px"}}>{data.title}</strong></h3>
           </div>
@@ -200,8 +206,8 @@ const Card = ({post, postedBy}) => {
             {data.comments.map(cmt=>{
               return (
                 <h6 key={cmt._id}>
-                  <Link to={cmt.postedBy._id===state._id ? "/profile" : "/profile/"+cmt.postedBy._id}><span style={{fontWeight:"500"}}>{cmt.postedBy.name} </span></Link>
-                  {cmt.text}
+                  <Link to={cmt.postedBy._id===state._id ? "/profile" : "/profile/"+cmt.postedBy._id}><span style={{fontWeight:"500"}}>{cmt.postedBy.name}</span></Link>
+                  <div>{cmt.text}</div>
                   {state._id===cmt.postedBy._id && (
                     <i className="material-icons" style={{float:"right"}} onClick={()=>deleteComment(cmt._id)}>delete</i>  
                   )}
