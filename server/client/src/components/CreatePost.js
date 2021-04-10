@@ -22,7 +22,6 @@ const CreatePost = () => {
       setBody(baseData.body)
       setImage(baseData.picture)
       submitData.picture = baseData.picture
-      console.log(submitData)
     }
   }, [])
 
@@ -51,7 +50,6 @@ const CreatePost = () => {
   function addDB(){
     submitData.title = title
     submitData.body = body || " "
-    console.log(submitData)
     if(baseData) {
       fetch("/createPost", {
         method: "POST",
@@ -91,23 +89,27 @@ const CreatePost = () => {
         }
       })
     } else {
-      fetch(`/deletepost/${baseData._id}`, {
-        method:"DELETE",
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer "+localStorage.getItem("jwt"),
-          "_id": state._id,
-          "picture": false
+      fetch("/createPost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          "Authorization": "Bearer "+localStorage.getItem("jwt")
         },
+        body: JSON.stringify({
+          title: submitData.title, 
+          body: submitData.body,
+          picture: submitData.picture, 
+        })
       })
-      .then(res=>res.json())
-      .then(result_=>{
-        console.log(1)
+      .then(res => res.json())
+      .then(data => {
+        if(data.error) {
+          M.toast({html: data.error, classes: "red darken-1"})
+        } else {
+          M.toast({html: data.success, classes: "green accent-3"})
+          history.push("/")
+        }
       })
-      .catch((err)=>{
-        console.log(err)
-      })
-      history.push("/")
     }  
   }
 

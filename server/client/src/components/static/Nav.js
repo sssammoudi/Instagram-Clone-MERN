@@ -6,13 +6,14 @@ import create from "../images/create.png"
 import logout from "../images/logout.png"
 import followTab from "../images/followTab.png"
 import logo from "../images/logo.png"
+import icon from "../images/profile-pic.png"
 import M from 'materialize-css'
 
 function Nav() {
   const history = useHistory()
   const {state, dispatch} = useContext(UserContext)
   const searchModal = useRef(null)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("")
   const [userDetails, setUserDetails] = useState([])
   
   useEffect(()=>{
@@ -86,7 +87,10 @@ function Nav() {
                     setSearch("")
                     setUserDetails([])
                   }}> 
-                  <li className="search-item">{user.name}</li>
+                  <li className="search-item" onClick={(e)=>{history.push(user._id !== state._id ? "/profile/"+user._id : '/profile')}}>
+                    <img src={user.picture ? user.picture : icon} onClick={(e) => {history.refresh()}}/>
+                    {user.name}
+                  </li>
                 </Link>)
             })}
           </ul>
