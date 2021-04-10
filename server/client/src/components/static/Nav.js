@@ -82,12 +82,12 @@ function Nav() {
                 <Link
                   key={user._id}
                   to={user._id !== state._id ? "/profile/"+user._id : '/profile'}
-                  onClick={()=>{
+                  onClick={(e)=>{
                     M.Modal.getInstance(searchModal.current).close()
                     setSearch("")
                     setUserDetails([])
                   }}> 
-                  <li className="search-item" onClick={(e)=>{history.push(user._id !== state._id ? "/profile/"+user._id : '/profile')}}>
+                  <li className="search-item" onClick={(e)=>{history.push(user._id !== state._id ? "/profile/"+user._id : '/profile'); history.refresh()}}>
                     <img src={user.picture ? user.picture : icon} onClick={(e) => {history.refresh()}}/>
                     {user.name}
                   </li>

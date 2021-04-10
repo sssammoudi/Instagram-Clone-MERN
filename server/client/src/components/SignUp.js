@@ -33,7 +33,9 @@ const SignUp = () => {
   }
 
   function postSignUp(){
-    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    console.log(regex.test(email))
+    if(!regex.test(email)){
       M.toast({html: "invalid email",classes:"red darken-3"})
       return
     }
@@ -77,7 +79,7 @@ const SignUp = () => {
           placeholder="name"
           value={name}
           onChange={(e)=>setName(e.target.value)}
-          maxlength="10"
+          maxLength="10"
         />
         <input
           type="text"

@@ -105,9 +105,8 @@ nav ul a:hover {
 }
 
 input,
-select,
 textarea {
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
 .input-field input[type=text]:focus {
@@ -121,7 +120,6 @@ textarea {
 }
 
 .profile {
-    max-width: 600px;
     margin: 0px auto;
 }
 
@@ -169,6 +167,71 @@ textarea {
     margin-bottom: 10px;
 }
 
+.edit-profile {
+    height: 80vh;
+    background: rgb(0, 0, 0);
+    z-index: 3;
+    overflow: auto;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 50vh;
+}
+
+.info-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: relative;
+    margin: 15px auto;
+    cursor: pointer;
+}
+
+.info-avatar>label>img {
+    display: block;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgb(177, 0, 0);
+}
+
+.btn-close:hover {
+    background: rgba(255, 48, 48, 0.425)
+}
+
+.edit-profile>div {
+    margin: 50px 25px;
+}
+
+.form-control {
+    background: rgb(255, 254, 254) !important;
+}
+
+label {
+    display: inline-block !important;
+    margin-bottom: .5rem !important;
+}
+
+.btn-submit {
+    width: 80% !important;
+    position: relative;
+    /* margin-top: 50vh; */
+    margin-left: 10%;
+    background: rgba(0, 155, 52, 0.678);
+}
+
 .home-card,
 .CreatePost-Card {
     max-width: 400px;
@@ -180,6 +243,10 @@ textarea {
 
 .CreatePost-Card {
     max-height: 600px
+}
+
+.CreatePost-Card>input {
+    color: #fff !important;
 }
 
 .home-card {

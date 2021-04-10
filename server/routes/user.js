@@ -89,4 +89,32 @@ router.put('/unfollow', requireLogin, (req,res)=>{
   })
 })
 
+router.post('/update', requireLogin, (req, res)=>{
+  console.log(req.body.picture)
+  User.findOneAndUpdate({_id: req.user._id}, {
+    $set:{name: req.body.name, picture: req.body.picture}
+  },{
+    new:true
+  }, (err,result)=>{
+    if(err){
+      return res.status(422).json({error:"can not update"})
+    }
+    res.json(result)
+  })
+})
+
+router.delete("/deleteIcon", requireLogin, (req, res)=>{
+  let picture = req.body.picture
+  picture = picture.toString().replace("http://res.cloudinary.com/dcyfsjd/image/upload", "").replace(".jpg", "").replace(".png", "")
+  picture = picture.split("/")
+  console.log(picture[2])
+  cloudinary.api.delete_resources(
+    picture[2],
+    {invalidate: true}, 
+    (result, err) => {
+      console.log(err, result)
+    }
+  )
+})
+
 module.exports = router
