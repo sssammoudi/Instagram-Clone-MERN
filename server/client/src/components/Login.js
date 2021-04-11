@@ -8,11 +8,16 @@ const Login = () => {
   const history = useHistory()
   const [password, setpassword] = useState("");
   const [email, setEmail] = useState("");
+  const [click, setClick] = useState(false);
 
   function postLogin(e){
+    setClick(true)
     e.preventDefault()
-    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    console.log(regex.test(email))
+    if(!regex.test(email)){
       M.toast({html: "invalid email",classes:"red darken-3"})
+      setClick(false)
       return
     }
     fetch("/login", {
@@ -29,6 +34,7 @@ const Login = () => {
     .then(data => {
       if(data.error) {
         M.toast({html: data.error, classes: "red darken-1"})
+        setClick(false)
       } else {
         localStorage.setItem("jwt", data.token)
         localStorage.setItem("user", JSON.stringify(data.user))
@@ -55,7 +61,7 @@ const Login = () => {
           value={password}
           onChange={(e)=>setpassword(e.target.value)}
         />
-        <button className="btn blue darken-1" onClick={(e) => (postLogin(e))}>Login</button>
+        <button className="btn blue darken-1" onClick={(e) => (postLogin(e))} disabled={click}>Login</button>
         <h5><Link to="/signup">You don't have an account?</Link></h5>
       </div>
     </div>

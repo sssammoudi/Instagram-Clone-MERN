@@ -62,6 +62,9 @@ const Routing = ()=> {
       </Route>
       <Route path="/post/:id" component={OnePost}>
       </Route>
+      <Route path="/chat">
+        
+      </Route>
     </Switch>
   )
 }

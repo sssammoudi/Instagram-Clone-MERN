@@ -9,6 +9,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [picture, setpicture] = useState("");
   const [url, setUrl] = useState(null);
+  const [click, setClick] = useState(false);
 
   useEffect(() => {
     postSignUp()
@@ -29,14 +30,17 @@ const SignUp = () => {
     })
     .catch((err)=>{
       console.log(err)
+      setClick(false)
     })
   }
 
   function postSignUp(){
+    setClick(true)
     const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     console.log(regex.test(email))
     if(!regex.test(email)){
       M.toast({html: "invalid email",classes:"red darken-3"})
+      setClick(false)
       return
     }
     fetch("/signup", {
@@ -55,6 +59,7 @@ const SignUp = () => {
     .then(data => {
       if(data.error) {
         M.toast({html: data.error, classes: "red darken-1"})
+        setClick(false)
       } else {
         M.toast({html: data.success, classes: "green accent-3"})
         history.push("/login")
@@ -63,6 +68,7 @@ const SignUp = () => {
   }
 
   function PostData() {
+    setClick(true)
     if(picture) {
       uploadPic()
     } else {
@@ -105,7 +111,7 @@ const SignUp = () => {
             <input className="file-path validate" type="text" />
           </div>
         </div>
-        <button className="btn blue darken-1 waves-light waves-effect" onClick={(e) => (PostData())}>
+        <button className="btn blue darken-1 waves-light waves-effect" onClick={(e) => (PostData())} disabled={click}>
           Sign Up
         </button>
         <h5><Link to="/login">Already have an account?</Link></h5>
