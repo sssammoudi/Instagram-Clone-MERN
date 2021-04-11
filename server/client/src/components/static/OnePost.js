@@ -16,7 +16,6 @@ function OnePost(props) {
     .then(res => res.json())
     .then(result=>{
       setPost(result.post)
-      console.log(post)
     })
     .catch(error=>{
       console.log(error)

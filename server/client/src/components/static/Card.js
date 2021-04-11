@@ -51,7 +51,6 @@ const Card = ({post, postedBy}) => {
     .then(res=>res.json())
     .then(result=>{
       setData(result)
-      console.log(data)
     }).catch(err=>{
       console.log(err)
     })

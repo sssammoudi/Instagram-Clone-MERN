@@ -1,5 +1,6 @@
 import React, {useEffect, createContext, useReducer, useContext}from "react";
 import Nav from "./components/static/Nav"
+import Nav2 from "./components/static/Nav2"
 import Home from "./components/Home"
 import Profile from "./components/Profile"
 import SignUp from "./components/SignUp"
@@ -72,6 +73,7 @@ function App() {
       <BrowserRouter>
         <Nav/>
         <Routing />
+        <Nav2/>
       </BrowserRouter>
     </UserContext.Provider>
   )
