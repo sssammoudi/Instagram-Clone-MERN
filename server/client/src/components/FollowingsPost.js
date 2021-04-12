@@ -16,7 +16,7 @@ function FollowingsPost() {
   }, []))
 
   return (
-    <div>
+    <div className="home">
       {data.map(post => (
         <Card post={post}  key={post._id} postedBy={post.postedBy} />
       ))}

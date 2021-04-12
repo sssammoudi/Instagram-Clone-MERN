@@ -84,6 +84,7 @@ nav ul a:hover {
 
 .large {
     font-size: 4em !important;
+    padding-right: 20px;
 }
 
 .search {
@@ -279,6 +280,7 @@ label {
 .home-card {
     background: transparent;
     box-shadow: none;
+    max-width: 1200px;
 }
 
 .header-Post {
@@ -317,6 +319,11 @@ label {
 
 .card-content {
     border-radius: 0 0 20px 20px !important;
+}
+
+.card-image>img {
+    max-height: 1300px;
+    max-width: 1200px;
 }
 
 .text-card {

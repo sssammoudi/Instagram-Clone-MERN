@@ -1,7 +1,7 @@
 import React, {useEffect, createContext, useReducer, useContext}from "react";
 import Nav from "./components/static/Nav"
 import Nav2 from "./components/static/Nav2"
-import Home from "./components/Home"
+import AllPosts from "./components/allPosts"
 import Profile from "./components/Profile"
 import SignUp from "./components/SignUp"
 import Login from "./components/Login"
@@ -9,6 +9,7 @@ import CreatePost from "./components/CreatePost"
 import OnePost from "./components/static/OnePost"
 import UserProfile from "./components/static/UserProfile"
 import FollowingsPost from "./components/FollowingsPost"
+import Chat from "./components/Chat"
 import {BrowserRouter, Route, Switch, useHistory} from "react-router-dom"
 import {reducer, initialState} from "./reducers/userReducers"
 
@@ -41,8 +42,8 @@ const Routing = ()=> {
   }, [])
   return (
     <Switch>    
-      <Route exact path="/">
-        <Home/>
+      <Route exact path="/allposts">
+        <AllPosts/>
       </Route>
       <Route exact path="/createpost">
         <CreatePost/>
@@ -51,19 +52,19 @@ const Routing = ()=> {
         <Profile/>
       </Route>
       <Route path="/profile/:id" component={UserProfile}/>
-      <Route path="/signup">
+      <Route exact path="/signup">
         <SignUp/>
       </Route>
-      <Route path="/login">
+      <Route exact path="/login">
         <Login/>
       </Route>
-      <Route path="/followingspost">
+      <Route exact path="/">
         <FollowingsPost />
       </Route>
       <Route path="/post/:id" component={OnePost}>
       </Route>
-      <Route path="/chat">
-        
+      <Route exact path="/chat">
+        <Chat />
       </Route>
     </Switch>
   )
