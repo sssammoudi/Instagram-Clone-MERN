@@ -19,7 +19,6 @@ function Nav2() {
         <li key="2"><Link to="/allposts"><img src={followTab} alt="Home" className="Nav-Tab" width="70px" height="70px"/></Link></li>,
         <li key="3"><Link to="/createpost"><img src={create} alt="Create-Post" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
         <li key="4"><Link to="/chat"><img src={chat} alt="Chat" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
-        <li key="5"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
         ]
     } else {
       return [

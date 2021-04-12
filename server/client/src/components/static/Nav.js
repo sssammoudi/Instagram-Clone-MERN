@@ -21,7 +21,8 @@ function Nav() {
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2">
+        <li key="2"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+        <li key="3">
           <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
             localStorage.clear()
             dispatch({type:"CLEAR"})
