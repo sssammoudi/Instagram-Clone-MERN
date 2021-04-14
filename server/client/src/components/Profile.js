@@ -6,10 +6,13 @@ import {useHistory} from "react-router-dom"
 function Profile() {
   const {state, dispatch} = useContext(UserContext)
   const user = JSON.parse(localStorage.getItem("user"))
+  if(!state){
+    dispatch({type:"USER", payload:user})
+  }
   const history = useHistory()
   const [myPosts, setMyPosts] = useState([])
   const [edit, setEdit] = useState(false)
-  const [editUser, setEditUser] = useState({name: state.name ? state.name : "name", picture: state.picture ? state.picture : icon})
+  const [editUser, setEditUser] = useState({name: state ? state.name : "name", picture: state && state.picture ? state.picture : icon})
   const [image, setImage] = useState("");
 
   useEffect(() => {

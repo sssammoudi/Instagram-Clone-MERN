@@ -5,6 +5,7 @@ import {useHistory} from "react-router-dom"
 const AllPosts = () => {
   const history = useHistory()
   const [data,setData] = useState([])
+  const user = JSON.parse(localStorage.getItem("user"))
 
   useEffect(() => {
     fetch("/allPosts", {
@@ -19,13 +20,24 @@ const AllPosts = () => {
     })
   }, [])
   return data ? (
-    <div className="profile-gallery" style={{marginTop:"30px"}}>
-      {data.map(post => {
-        return post.picture ? (
-          <img className="gallery-item" key={post._id} src={post.picture} alt={post.title} onClick={(e)=>{history.push("/post/"+post._id)}}/>
-        ) : (
-          <h3 className="gallery-item" key={post._id} onClick={(e)=>{history.push("/post/"+post._id)}}>{post.title}</h3>
-        )})}
+    <div>
+      <div className="profile-gallery" style={{marginTop:"30px", marginBottom:"30px"}}>
+        {data.map(post => {
+          return post.postedBy._id===user._id ?
+            <div></div> : 
+            post.picture ? (
+              <img 
+                className="gallery-item" 
+                key={post._id} 
+                src={post.picture} 
+                alt={post.title} 
+                onClick={(e)=>{history.push("/post/"+post._id)}}
+              />
+            ) : (
+              <h3 className="gallery-item" key={post._id} onClick={(e)=>{history.push("/post/"+post._id)}}>{post.title}</h3>
+            )})}
+      </div>
+      <div style={{height: '30px'}}></div>
     </div>
   ) : <h1>Loading...</h1>
 }

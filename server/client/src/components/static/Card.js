@@ -37,7 +37,7 @@ const Card = ({post, postedBy}) => {
   }, []);
 
   const likePost = ()=>{
-    fetch('/like',{
+    fetch('/like', {
       method: "POST",
       headers: {
         "Content-Type":"application/json",
@@ -160,8 +160,8 @@ const Card = ({post, postedBy}) => {
             <img src={postedBy.picture ? postedBy.picture : icon} onClick={(e) => {history.push(profile)}}/>
           </div>
           <div className="header-content">
-            <h5 style={{padding:"0px", display:"flex", justifyContent:"space-around"}}>
-              <Link to={profile} style={{color:"white"}} onClick={(e) => {history.push(profile)}}>
+            <h5 style={{padding:"0px", display:"flex", justifyContent:"space-around"}} onClick={(e) => {history.push(profile)}}>
+              <Link to={profile} style={{color:"white"}}>
                 {postedBy.name}
               </Link>
               {state._id===postedBy._id && 

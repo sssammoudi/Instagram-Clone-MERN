@@ -4,7 +4,9 @@ import {UserContext} from '../../App'
 import logout from "../images/logout.png"
 import logo from "../images/logo.png"
 import icon from "../images/profile-pic.png"
+import notification from "../images/notification.png"
 import M from 'materialize-css'
+import profile from "../images/profile-pic.png"
 
 function Nav() {
   const history = useHistory()
@@ -21,8 +23,9 @@ function Nav() {
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
-        <li key="3">
+        <li key="2"><img src={notification} alt="Chat" className="Nav-Tab" width="50px" height="50px"/></li>,
+        <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+        <li key="4">
           <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
             localStorage.clear()
             dispatch({type:"CLEAR"})

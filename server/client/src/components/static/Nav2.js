@@ -1,12 +1,10 @@
 import React, {useContext, useRef, useState, useEffect} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {UserContext} from '../../App'
-import profile from "../images/profile-pic.png"
 import create from "../images/create.png"
 import followTab from "../images/followTab.png"
 import chat from "../images/chat.png"
 import homeIcon from "../images/home-icon.png"
-import M from 'materialize-css'
 
 function Nav2() {
   const history = useHistory()
@@ -15,10 +13,10 @@ function Nav2() {
   const renderList = ()=>{
     if(state) {
       return [
-        <li key="1"><Link to="/"><img src={homeIcon} alt="Home" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
-        <li key="2"><Link to="/allposts"><img src={followTab} alt="Home" className="Nav-Tab" width="70px" height="70px"/></Link></li>,
-        <li key="3"><Link to="/createpost"><img src={create} alt="Create-Post" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
-        <li key="4"><Link to="/chat"><img src={chat} alt="Chat" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+          <li key="1"><Link to="/"><img src={homeIcon} alt="Home" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+          <li key="2"><Link to="/allposts"><img src={followTab} alt="Home" className="Nav-Tab" width="70px" height="70px"/></Link></li>,
+          <li key="3"><Link to="/createpost"><img src={create} alt="Create-Post" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+          // <li key="4"><Link to="/chat"><img src={chat} alt="Chat" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
         ]
     } else {
       return [

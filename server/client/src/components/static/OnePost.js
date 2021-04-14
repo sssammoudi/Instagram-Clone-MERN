@@ -25,6 +25,7 @@ function OnePost(props) {
     <div>
       <Button variant="contained" color="primary" className="Back-btn" onClick={(e)=>{history.goBack()}}>Go Back</Button>
       <Card post={post}  key={post._id} postedBy={post.postedBy}/>
+      <div style={{height:"70px"}}></div>
     </div>
   : <div></div>
 }

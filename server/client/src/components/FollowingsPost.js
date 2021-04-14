@@ -3,7 +3,8 @@ import Card from "./static/Card"
 
 function FollowingsPost() {
   const [data,setData] = useState([])
-  useEffect(() => 
+
+  useEffect(() => {
     fetch("/followingsPost", {
       method: "GET",
       headers:{
@@ -13,13 +14,17 @@ function FollowingsPost() {
     .then(res => res.json())
     .then(result=>{
       setData(result.posts)
-  }, []))
+    })
+  }, [])
 
   return (
-    <div className="home">
-      {data.map(post => (
-        <Card post={post}  key={post._id} postedBy={post.postedBy} />
-      ))}
+    <div>
+      <div className="home">
+        {data && data.map(post => (
+          post && <Card post={post}  key={post._id} postedBy={post.postedBy} />
+        ))}
+      </div>
+      <div style={{height: '50px'}}></div>
     </div>
   )
 }

@@ -4,9 +4,11 @@ import M from "materialize-css"
 import Camera from 'react-html5-camera-photo';
 import {UserContext} from "../App"
 import 'react-html5-camera-photo/build/css/index.css';
+import {PostNotify} from "../actions/PostNotify"
 
 const CreatePost = () => {
   const baseData = JSON.parse(sessionStorage.getItem("data"))
+  const user = JSON.parse(localStorage.getItem("user"))
   const history = useHistory()
   const {state, dispatch} = useContext(UserContext)
   const [title, setTitle] = useState("");
@@ -85,7 +87,7 @@ const CreatePost = () => {
           .catch((err)=>{
             console.log(err)
           })
-          history.push("/")
+          history.push("/profile")
         }
       })
     } else {
@@ -103,11 +105,21 @@ const CreatePost = () => {
       })
       .then(res => res.json())
       .then(data => {
+        const data_ = data.post
         if(data.error) {
           M.toast({html: data.error, classes: "red darken-1"})
         } else {
+          const msg = {
+            id: data_._id, 
+            recipient: user.followers, 
+            url: "post/"+data_._id,
+            text: "new post: "+data_.title, 
+            content: data_.body, 
+            image: data_.picture ? data_.picture : null
+          }
+          PostNotify({msg:msg})
           M.toast({html: data.success, classes: "green accent-3"})
-          history.push("/")
+          history.push("/profile")
         }
       })
     }  

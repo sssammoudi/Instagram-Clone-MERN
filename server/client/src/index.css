@@ -73,6 +73,11 @@ nav ul a:hover {
     background: none;
 }
 
+.modal {
+    width: 100%;
+    min-height: 100px
+}
+
 .modal-content,
 .modal-footer {
     background-color: rgb(0, 0, 0) !important;
@@ -245,6 +250,7 @@ textarea {
 
 .form-control {
     background: rgb(255, 254, 254) !important;
+    color: rgb(0, 0, 0);
 }
 
 label {

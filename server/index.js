@@ -8,11 +8,13 @@ const {MONGOURL} = require('./config/keys')
 
 require('./models/user')
 require('./models/post')
+require('./models/notify')
 
 app.use(express.json())
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 app.use(require('./routes/user'))
+app.use(require('./routes/notify'))
 
 mongoose.connect(MONGOURL, {
   useNewUrlParser: true,
