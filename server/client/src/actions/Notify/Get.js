@@ -9,6 +9,5 @@ export const GetNotify = (setNotifs, notifs) => {
   .then(res => res.json())
   .then(res => {
     setNotifs(res.notification)
-    console.log(notifs)
   })
 }

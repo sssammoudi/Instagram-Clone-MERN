@@ -16,16 +16,22 @@ function Nav() {
   const [userDetails, setUserDetails] = useState([])
   const [notifs, setNotifs] = useState(null);
   const searchModal = useRef(null)
+  const notifModal = useRef(null)
 
   useEffect(()=>{
+    M.Modal.init(notifModal.current)
     M.Modal.init(searchModal.current)
   }, [])
+
+  // useEffect(()=>{
+  //   GetNotify(setNotifs, notifs)
+  // })
   
   const renderList = ()=>{
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2"><img src={notification} alt="Chat" className="Nav-Tab" width="50px" height="50px" onClick={(e)=>{Notifies()}}/></li>,
+        <li key="2"><img data-target="modal2" src={notification} alt="Chat" className="Nav-Tab modal-trigger" width="50px" height="50px" onClick={(e)=>{Notifies()}}/></li>,
         <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
         <li key="4">
           <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
@@ -43,7 +49,7 @@ function Nav() {
     }
   }
 
-  const Notifies = () => {
+  const Notifies = async () => {
     GetNotify(setNotifs, notifs)
     if(notifs) {
       console.log(notifs)
@@ -106,6 +112,34 @@ function Nav() {
             <button className="modal-close waves-effect waves-green btn-flat" onClick={(e) => {setSearch("")}}>close</button>
           </div>
         </div>
+
+      <div id="modal2" className="modal" ref={notifModal} style={{color:"black"}}>
+        <div className="modal-content" style={{ overflowY:"scroll"}}>
+        <ul className="notifs"> 
+          {notifs && notifs.map(notif=>{
+            return (
+              <Link
+                key={notif._id}
+                to={notif.url}
+                onClick={(e)=>{
+                  M.Modal.getInstance(notifModal.current).close()
+                  setUserDetails([])
+                }}> 
+                <li className="notif-item">
+                  <img src={notif.image ? notif.image : icon}/>
+                  <div className="notif-info">
+                    <div className="text">{notif.text}</div>
+                    {notif.content && notif.content}
+                  </div>
+                </li>
+              </Link>)
+            })}
+          </ul>
+        </div>
+        <div className="modal-footer">
+          <button className="modal-close waves-effect waves-green btn-flat" onClick={(e) => {setSearch("")}}>close</button>
+        </div>
+      </div>
 
     </nav>
   )

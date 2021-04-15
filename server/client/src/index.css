@@ -108,11 +108,40 @@ nav ul a:hover {
     display: flex;
 }
 
-.search-item>img {
+.search-item>img,
+.notif-item>img {
     margin: 15px;
     border-radius: 50px;
     height: 50px;
     max-width: 50px;
+}
+
+#modal2 {
+    max-width: 400px;
+    min-height: 300px;
+    background: #363636;
+}
+
+#modal2>.modal-content,
+#modal2>.modal-footer {
+    background: #363636 !important;
+}
+
+.notif-item {
+    width: 100%;
+    /* font-size: 15px; */
+    text-align: left;
+    padding-top: 0 !important;
+    border-bottom: 3px solid rgba(255, 255, 255);
+    line-height: 20px;
+    overflow-y: scroll;
+    display: flex;
+}
+
+.notif-info>.text {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
 }
 
 .modal-footer>button {
@@ -366,7 +395,7 @@ h3 {
 
 .heart-icon {
     position: absolute;
-    left: 34%;
+    left: 45%;
     top: 35%;
     filter: alpha(opacity=50);
 }
