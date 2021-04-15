@@ -7,6 +7,7 @@ import M from "materialize-css"
 import ShareIcon from '@material-ui/icons/Share';
 import Copy from 'clipboard-react'
 import {Link, useHistory} from "react-router-dom"
+import {PostNotify} from "../../actions/Notify/Post"
 
 const Card = ({post, postedBy}) => {
   sessionStorage.setItem("data", null)
@@ -51,6 +52,14 @@ const Card = ({post, postedBy}) => {
     .then(res=>res.json())
     .then(result=>{
       setData(result)
+      const msg = {
+        recipient: postedBy._id, 
+        url: "/post/"+result._id,
+        text: state.name+" liked your post", 
+        content: null, 
+        image: result.picture ? result.picture : null
+      }
+      PostNotify({msg:msg})
     }).catch(err=>{
       console.log(err)
     })
@@ -97,6 +106,14 @@ const Card = ({post, postedBy}) => {
       })
       .then(res=>res.json())
       .then(result=>{
+        const msg = {
+          recipient: postedBy._id, 
+          url: "/post/"+result._id,
+          text: state.name+" commented on your post", 
+          content: commentText.substring(0, 15)+"...", 
+          image: result.picture ? result.picture : null
+        }
+        PostNotify({msg:msg})
         setCommentText("")
         setData(result)
       }).catch(err=>{

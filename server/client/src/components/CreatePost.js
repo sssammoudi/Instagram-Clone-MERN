@@ -4,7 +4,7 @@ import M from "materialize-css"
 import Camera from 'react-html5-camera-photo';
 import {UserContext} from "../App"
 import 'react-html5-camera-photo/build/css/index.css';
-import {PostNotify} from "../actions/PostNotify"
+import {PostNotify} from "../actions/Notify/Post"
 
 const CreatePost = () => {
   const baseData = JSON.parse(sessionStorage.getItem("data"))
@@ -110,7 +110,6 @@ const CreatePost = () => {
           M.toast({html: data.error, classes: "red darken-1"})
         } else {
           const msg = {
-            id: data_._id, 
             recipient: user.followers, 
             url: "post/"+data_._id,
             text: "new post: "+data_.title, 

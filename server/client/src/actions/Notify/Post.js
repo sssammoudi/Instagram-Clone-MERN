@@ -1,6 +1,5 @@
-
 export const PostNotify = ({msg}) => {
-  fetch("/notify", {
+  fetch("/createNotify", {
     method: "POST",
     headers: {
       "Content-Type": "Application/json",
@@ -14,5 +13,4 @@ export const PostNotify = ({msg}) => {
   .then(res => {
     console.log(res)
   })
-  console.log(msg)
 }

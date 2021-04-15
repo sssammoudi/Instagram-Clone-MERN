@@ -4,11 +4,9 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin')
 const Notify = mongoose.model('Notify');
 
-router.post('/notify', requireLogin, (req, res)=>{
-  const {id, recipient, url, text, content, image} = req.body
-  console.log({id, recipient, url, text, content, image})
+router.post('/createNotify', requireLogin, (req, res)=>{
+  const {id, recipient, url, text, content, image} = req.body.msg
   const notification = new Notify({
-    id,
     recipient,
     url,
     text,
@@ -23,6 +21,19 @@ router.post('/notify', requireLogin, (req, res)=>{
   .catch((err) => {
     console.log(err)
   })
+})
+
+router.get("/getNotify", requireLogin, (req, res)=>{
+  Notify.find({recipient: {$all: [req.user._id]}})
+  .populate("user", "name picture")
+  .sort("read")
+  .sort({createdAt: 'desc'})
+  .then(notification => {
+    res.json({notification})
+  })
+  .catch(err => (
+    console.log(err)
+  ))
 })
 
 module.exports = router

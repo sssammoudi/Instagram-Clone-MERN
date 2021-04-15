@@ -4,6 +4,7 @@ import icon from "../images/profile-pic.png"
 import {UserContext} from "../../App"
 import followedImg from "../images/followed.png"
 import followImg from "../images/follow.png"
+import {PostNotify} from "../../actions/Notify/Post"
 
 function UserProfile(props) {
   const user = JSON.parse(localStorage.getItem("user"))
@@ -39,6 +40,14 @@ function UserProfile(props) {
     })
     .then(res=>res.json())
     .then((result)=>{
+      const msg = {
+        recipient: props.match.params.id, 
+        url: "/profile/"+state._id,
+        text: state.name+" started following you", 
+        content: null, 
+        image: state.picture ? state.picture : icon
+      }
+      PostNotify({msg:msg})
       setNotFollowed(false)
       dispatch({type:"UPDATE", payload: {
         following: result.following,

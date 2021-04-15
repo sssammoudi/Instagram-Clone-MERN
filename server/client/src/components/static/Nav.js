@@ -7,12 +7,14 @@ import icon from "../images/profile-pic.png"
 import notification from "../images/notification.png"
 import M from 'materialize-css'
 import profile from "../images/profile-pic.png"
+import {GetNotify} from "../../actions/Notify/Get"
 
 function Nav() {
   const history = useHistory()
   const {state, dispatch} = useContext(UserContext)
   const [search, setSearch] = useState("")
   const [userDetails, setUserDetails] = useState([])
+  const [notifs, setNotifs] = useState(null);
   const searchModal = useRef(null)
 
   useEffect(()=>{
@@ -23,7 +25,7 @@ function Nav() {
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2"><img src={notification} alt="Chat" className="Nav-Tab" width="50px" height="50px"/></li>,
+        <li key="2"><img src={notification} alt="Chat" className="Nav-Tab" width="50px" height="50px" onClick={(e)=>{Notifies()}}/></li>,
         <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
         <li key="4">
           <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
@@ -38,6 +40,13 @@ function Nav() {
         <li key="1"><Link to="/login">Login</Link></li>,
         <li key="2"><Link to="/signup">Sign up</Link></li>
       ]
+    }
+  }
+
+  const Notifies = () => {
+    GetNotify(setNotifs, notifs)
+    if(notifs) {
+      console.log(notifs)
     }
   }
 
