@@ -120,6 +120,8 @@ nav ul a:hover {
     max-width: 400px;
     min-height: 300px;
     background: #363636;
+    left: auto;
+    right: 10px !important;
 }
 
 #modal2>.modal-content,

@@ -8,6 +8,9 @@ import notification from "../images/notification.png"
 import M from 'materialize-css'
 import profile from "../images/profile-pic.png"
 import {GetNotify} from "../../actions/Notify/Get"
+import { io } from "socket.io-client";
+
+const socket = io();
 
 function Nav() {
   const history = useHistory()
@@ -19,22 +22,21 @@ function Nav() {
   const notifModal = useRef(null)
 
   useEffect(()=>{
+    socket.on("notification", ()=>{
+      GetNotify(setNotifs, notifs)
+    })
     M.Modal.init(notifModal.current)
     M.Modal.init(searchModal.current)
   }, [])
 
-  // useEffect(()=>{
-  //   GetNotify(setNotifs, notifs)
-  // })
-  
   const renderList = ()=>{
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2"><img data-target="modal2" src={notification} alt="Chat" className="Nav-Tab modal-trigger" width="50px" height="50px" onClick={(e)=>{Notifies()}}/></li>,
-        <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="50px" height="50px"/></Link></li>,
+        <li key="2"><img data-target="modal2" src={notification} alt="Notif" className="Nav-Tab modal-trigger" width="70px" height="70px" onClick={(e)=>{Notifies()}}/></li>,
+        <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="60px" height="60px"/></Link></li>,
         <li key="4">
-          <img src={logout} alt="Logout" className="Nav-Tab" width="50px" height="48px" onClick={()=>{
+          <img src={logout} alt="Logout" className="Nav-Tab" width="60px" height="60px" onClick={()=>{
             localStorage.clear()
             dispatch({type:"CLEAR"})
             history.push('/login')
@@ -49,10 +51,9 @@ function Nav() {
     }
   }
 
-  const Notifies = async () => {
-    GetNotify(setNotifs, notifs)
-    if(notifs) {
-      console.log(notifs)
+  const Notifies = () => {
+    if(!notifs) {
+      GetNotify(setNotifs, notifs)
     }
   }
 

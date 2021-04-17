@@ -3,10 +3,20 @@ const mongoose = require('mongoose')
 
 const app = express()
 
+const http = require('http').createServer(app)
+const io = require("socket.io")(http, {
+  handlePreflightRequest: (req, res) => {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "https://example.com",
+      "Access-Control-Allow-Methods": "GET, POST",
+      "Access-Control-Allow-Headers": "my-custom-header",
+      "Access-Control-Allow-Credentials": true
+    });
+    res.end();
+  }
+})
 const PORT = process.env.PORT || 5000
 const {MONGOURL} = require('./config/keys')
-
-const http = require('http').createServer(app)
 
 require('./models/user')
 require('./models/post')
@@ -30,13 +40,23 @@ mongoose.connection.on("error", (err)=>{
 })
 
 if(process.env.NODE_ENV=="production"){
-  app.use(express.static('client/build'))
+  http.use(express.static('client/build'))
   const path = require('path')
-  app.get("*",(req,res)=>{
-      res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+  http.get("*", (req, res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'))
   })
 }
 
-app.listen(PORT, ()=>{
+http.listen(PORT, ()=>{
   console.log(PORT)
 })
+
+io.on("connection", (socket) => {
+  console.log(socket.id)
+  socket.on("hello", (args) => {
+    console.log(args)
+  });
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} disconnected`);
+  });
+});
