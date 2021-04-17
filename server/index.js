@@ -6,6 +6,8 @@ const app = express()
 const PORT = process.env.PORT || 5000
 const {MONGOURL} = require('./config/keys')
 
+const http = require('http').createServer(app)
+
 require('./models/user')
 require('./models/post')
 require('./models/notify')
