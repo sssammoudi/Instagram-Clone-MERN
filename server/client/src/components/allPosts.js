@@ -19,13 +19,11 @@ const AllPosts = () => {
       setData(result.posts)
     })
   }, [])
-  return data ? (
+  return (
     <div>
       <div className="profile-gallery" style={{marginTop:"30px", marginBottom:"30px"}}>
         {data.map(post => {
-          return post.postedBy._id===user._id ?
-            <div></div> : 
-            post.picture ? (
+          return post.picture ? (
               <img 
                 className="gallery-item" 
                 key={post._id} 
@@ -39,7 +37,7 @@ const AllPosts = () => {
       </div>
       <div style={{height: '30px'}}></div>
     </div>
-  ) : <h1>Loading...</h1>
+  )
 }
 
 export default AllPosts

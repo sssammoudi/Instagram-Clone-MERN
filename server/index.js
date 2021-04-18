@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 
 const app = express()
 
-const http = require('http').createServer(app)
-const io = require("socket.io")(http, {
+const http_ = require('http').createServer(app)
+const io = require("socket.io")(http_, {
   handlePreflightRequest: (req, res) => {
     res.writeHead(200, {
       "Access-Control-Allow-Origin": "https://example.com",
@@ -15,6 +15,7 @@ const io = require("socket.io")(http, {
     res.end();
   }
 })
+
 const PORT = process.env.PORT || 5000
 const {MONGOURL} = require('./config/keys')
 
@@ -40,23 +41,23 @@ mongoose.connection.on("error", (err)=>{
 })
 
 if(process.env.NODE_ENV=="production"){
-  http.use(express.static('client/build'))
+  app.use(express.static('client/build'))
   const path = require('path')
-  http.get("*", (req, res)=>{
+  app.get("*", (req, res)=>{
     res.sendFile(path.resolve(__dirname,'client','build','index.html'))
   })
 }
 
-http.listen(PORT, ()=>{
-  console.log(PORT)
-})
-
 io.on("connection", (socket) => {
   console.log(socket.id)
-  socket.on("hello", (args) => {
-    console.log(args)
-  });
-  socket.on('disconnect', () => {
-    console.log(`${socket.id} disconnected`);
-  });
 });
+
+const Notify = mongoose.model('Notify');
+const changeStream = Notify.watch();
+changeStream.once('change', (next) => {
+  io.emit('Notification', "Notification")
+})
+
+app.listen(PORT, ()=>{
+  console.log(PORT)
+})

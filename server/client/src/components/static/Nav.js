@@ -20,11 +20,14 @@ function Nav() {
   const [notifs, setNotifs] = useState(null);
   const searchModal = useRef(null)
   const notifModal = useRef(null)
-
+  const [favorite, setFavorite] = useState("favorite_border");  
+  socket.on("Notification", (res)=>{
+    console.log(res)
+    setFavorite("favorite")
+    GetNotify(setNotifs, notifs)
+  })
   useEffect(()=>{
-    socket.on("notification", ()=>{
-      GetNotify(setNotifs, notifs)
-    })
+    
     M.Modal.init(notifModal.current)
     M.Modal.init(searchModal.current)
   }, [])
@@ -33,7 +36,7 @@ function Nav() {
     if(state) {
       return [
         <li key="1"><i data-target="modal1" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{setUserDetails([])}}>search</i></li>,
-        <li key="2"><img data-target="modal2" src={notification} alt="Notif" className="Nav-Tab modal-trigger" width="70px" height="70px" onClick={(e)=>{Notifies()}}/></li>,
+        <li key="2"><i data-target="modal2" className="large material-icons modal-trigger Nav-Tab" style={{color:"black"}} onClick={(e)=>{Notifies([])}}>{favorite}</i></li>,
         <li key="3"><Link to="/profile"><img src={profile} alt="Profile" className="Nav-Tab" width="60px" height="60px"/></Link></li>,
         <li key="4">
           <img src={logout} alt="Logout" className="Nav-Tab" width="60px" height="60px" onClick={()=>{
@@ -52,6 +55,7 @@ function Nav() {
   }
 
   const Notifies = () => {
+    setFavorite("favorite_border")
     if(!notifs) {
       GetNotify(setNotifs, notifs)
     }
