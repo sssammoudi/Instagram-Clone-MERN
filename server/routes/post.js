@@ -6,9 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const Post = mongoose.model('Post');
 
 cloudinary.config({ 
-  cloud_name: 'dcyfsjd', 
-  api_key: '429237186124595',
-  api_secret: 'FlEgacGUFud6WBF-E6kIAvky1R0'
+  //your config
 });
 
 router.get("/allPosts", (req, res) => {

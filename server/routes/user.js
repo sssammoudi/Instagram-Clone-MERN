@@ -7,9 +7,7 @@ const User = mongoose.model('User');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
-  cloud_name: 'dcyfsjd', 
-  api_key: '429237186124595',
-  api_secret: 'FlEgacGUFud6WBF-E6kIAvky1R0'
+  // your config
 });
 
 router.get("/userProfile", requireLogin, (req, res) => {
